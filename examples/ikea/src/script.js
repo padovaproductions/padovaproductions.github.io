@@ -1,4 +1,4 @@
-import '../../../style.css'
+import '../../../navigation-style.css'
 import * as THREE from 'three'
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
 
@@ -23,7 +23,7 @@ function main() {
         const scene = new THREE.Scene();
         const mouse = new THREE.Vector2();
         const raycaster = new THREE.Raycaster();
-        let INTERSECTED = null;
+        let INTERSECTED = [false, false];
 
         const sizes = {
             width: window.innerWidth,
@@ -63,7 +63,7 @@ function main() {
         const ambientLight = new THREE.AmbientLight( 0xFFFFFF, .8 ); // soft white light
         scene.add( ambientLight );
 
-        const light = new THREE.DirectionalLight(0xFFFFFF, .6);
+        const light = new THREE.DirectionalLight(0xFFFFFF, .7);
         light.position.set(1,1,2);
         scene.add(light);
 
@@ -128,18 +128,24 @@ function main() {
             
             
             if (intersects.length > 0) {
-                if ( intersects[0].object != INTERSECTED ) {
-                    console.log(intersects[0].object.userData.name)
+                if ( intersects[0].object != INTERSECTED[0] ) {
+                    // console.log(intersects[0].object.userData.name)
                     intersects[0].object.material.color.set( blockHoverColor );
-                    if (INTERSECTED){
-                        INTERSECTED.material.color.set(blockColor);
+                    intersects[1].object.material.color.set( blockHoverColor );
+                    if (INTERSECTED[0]){
+                        INTERSECTED[0].material.color.set(blockColor);
+                        INTERSECTED[1].material.color.set(blockColor);
                     }
-                    INTERSECTED = intersects[0].object;
+                    INTERSECTED = [
+                        intersects[0].object,
+                        intersects[1].object,
+                    ];
                 }
             } else {
-                if (INTERSECTED){
-                    INTERSECTED.material.color.set(blockColor);
-                    INTERSECTED = null;
+                if ( INTERSECTED[0] ){
+                    INTERSECTED[0].material.color.set(blockColor);
+                    INTERSECTED[1].material.color.set(blockColor);
+                    INTERSECTED = [false, false];
                 }
             }
         });
