@@ -15,3 +15,13 @@ A Github page for padovaproductions
 - allow alpha where trying to use transparency
 
 - Buffer Geometry or Geometry?
+
+
+
+
+
+npm run dev
+npm run dev --project=ikea
+
+npm run build
+npm run build --project=ikea
