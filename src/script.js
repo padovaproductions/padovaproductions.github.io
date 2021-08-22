@@ -19,6 +19,8 @@ function main() {
         const blockHoverColor = 0xFFDB4B;
         const containerColor = 0xEEEEEE;
         
+
+        const scene = new THREE.Scene();
         const mouse = new THREE.Vector2();
         const raycaster = new THREE.Raycaster();
         let INTERSECTED = null;
@@ -32,7 +34,7 @@ function main() {
          * Camera
          */
         const camera = new THREE.PerspectiveCamera(35, sizes.width / sizes.height)
-        camera.position.set(3.3, 4.2, 7.25)
+        camera.position.set(8, 6, 8)
 
         /**
          * Controls
@@ -52,25 +54,18 @@ function main() {
         renderer.setClearColor(0x000000, 0);
         renderer.setSize(sizes.width, sizes.height);
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        
-
-        /**
-         * Scene
-         */
-        const scene = new THREE.Scene();
 
 
         
         /**
          * Lights
          */
-        function addLight(x, y, z) {
-            const light = new THREE.DirectionalLight(0xFFFFFF, 1);
-            light.position.set(x, y, z);
-            scene.add(light);
-        }
-        addLight(-1,  2,  4);
-        addLight( 1, -1, -2);
+        const ambientLight = new THREE.AmbientLight( 0xFFFFFF, .8 ); // soft white light
+        scene.add( ambientLight );
+
+        const light = new THREE.DirectionalLight(0xFFFFFF, .6);
+        light.position.set(1,1,2);
+        scene.add(light);
 
 
         const geometry = new THREE.BoxGeometry(1, 1, 1);
