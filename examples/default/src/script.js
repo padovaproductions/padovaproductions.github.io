@@ -1,4 +1,4 @@
-import './style.css'
+import '../../../style.css'
 import * as THREE from 'three'
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
 
@@ -68,6 +68,9 @@ function main() {
         scene.add(light);
 
 
+
+
+        
         const geometry = new THREE.BoxGeometry(1, 1, 1);
 
         function makeBox(geometry, color, x, y, z, data) {
@@ -89,7 +92,7 @@ function main() {
             });
         }
 
-        const d = 0.55;
+        const d = 0.501;
         const rooms = [
             [geometry, blockColor,-d, -d, -d, "Livingroom"],
             [geometry, blockColor, d, -d, -d, "Diningroom"],

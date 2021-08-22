@@ -3,20 +3,24 @@ const commonConfiguration = require('./webpack.common.js')
 const ip = require('internal-ip')
 const portFinderSync = require('portfinder-sync')
 
+
+const project = process.env.npm_config_project || 'default';
+const commonConf = commonConfiguration(project);
+
 const infoColor = (_message) =>
 {
     return `\u001b[1m\u001b[34m${_message}\u001b[39m\u001b[22m`
 }
 
 module.exports = merge(
-    commonConfiguration,
+    commonConf,
     {
         mode: 'development',
         devServer:
         {
             host: '0.0.0.0',
             port: portFinderSync.getPort(8080),
-            contentBase: './dist',
+            contentBase: './examples/'+project+'/dist',
             watchContentBase: true,
             open: true,
             https: false,
