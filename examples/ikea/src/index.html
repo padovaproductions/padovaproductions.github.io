@@ -10,7 +10,23 @@
 </head>
 <body>
 
-    <canvas class="webgl"></canvas>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-6 p-0" id="three-canvas-wr">            
+                <canvas class="three-canvas"></canvas>
+            </div>
+            <div class="col-md-4 d-flex align-items-center">
+                <div>
+                    <h3 id="room-name" class="mb-4">
+                        Select a room by hovering above it!
+                    </h3>
+                    <p id="room-description">
+                        See all the details of a selected room just by hovering your cursor above it.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
     
     <nav class="example-nav">
         <h5>IKEA boxes</h5>

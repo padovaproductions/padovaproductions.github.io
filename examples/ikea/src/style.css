@@ -1,25 +1,3 @@
-/* Canvas styling */
-.webgl{
-    position: fixed;
-}
-
-
-/* General page styling */
-
-strong{
-	font-weight: bold;
-}
-
-.example-nav{
-	position: fixed;
-	left: 0;
-	top: 0;
-	padding: 20px;
-}
-
-.example-nav li{
-	margin-bottom: 8px;
-}
 #three-canvas-wr{
     min-height: 500px;
     font-size: 0;
@@ -45,5 +23,3 @@ strong{
 #three-canvas-wr:hover::after{
     opacity: 0;
 } */
-
-/*# sourceMappingURL=main.css.map*/
