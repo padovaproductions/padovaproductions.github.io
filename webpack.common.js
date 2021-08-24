@@ -6,7 +6,6 @@ const path = require('path')
 
 module.exports = (project) => {
     return {
-
         entry: path.resolve(__dirname, './examples/'+project+'/src/script.js'),
         output:
         {
@@ -41,10 +40,12 @@ module.exports = (project) => {
                 {
                     test: /\.js$/,
                     exclude: /node_modules/,
-                    use:
-                    [
-                        'babel-loader'
-                    ]
+                    use: {                        
+                        loader: 'babel-loader',
+                        options: {
+                            presets: ['@babel/preset-env']
+                        }
+                    }
                 },
     
                 // CSS
