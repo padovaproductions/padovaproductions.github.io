@@ -249,7 +249,7 @@ window.addEventListener('load', () => {
                     ${projectName} project&nbsp;
                 </h6>
                 <small>
-                    <a class="nav-link d-inline p-0" href="/examples/${projectName}/src/script.js">
+                    <a class="nav-link d-inline p-0" href="/examples/${projectName.toLowerCase()}/src/script.js">
                         (src)
                     </a>
                 </small>
