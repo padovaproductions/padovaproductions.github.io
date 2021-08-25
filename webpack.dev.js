@@ -4,7 +4,7 @@ const ip = require('internal-ip')
 const portFinderSync = require('portfinder-sync')
 
 
-const project = process.env.npm_config_project || 'default';
+const project = process.env.npm_config_project || '0_starter';
 const commonConf = commonConfiguration(project);
 
 const infoColor = (_message) =>

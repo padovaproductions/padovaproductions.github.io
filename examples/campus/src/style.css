@@ -1,0 +1,34 @@
+/* General page styling */
+#example-nav{
+	position: fixed;
+	left: 10px;
+	top: 10px;
+}
+
+
+/* Site styling */
+#three-canvas-wr{
+    min-height: 500px;
+    font-size: 0;
+    line-height: 0;
+    position: relative;
+}
+
+@media screen and (min-width: 1024px) {
+    #three-canvas-wr{
+        min-height: 80vh;
+    }
+}
+
+
+/* Fading */
+@keyframes fade-in {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+.room-info-piece{
+    display: none;
+    animation-name: fade-in;
+    animation-duration: 1s;
+}
