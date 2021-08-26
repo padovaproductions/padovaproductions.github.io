@@ -7,6 +7,24 @@
 
 
 /* Site styling */
+h3{
+    position: relative;
+    margin-bottom: 44px !important;
+}
+h3::after{
+    content: '';
+    background-color: currentColor;
+    display: block;
+    width: 60px;
+    height: 3px;
+    position: absolute;
+    bottom: -16px;
+    left: 0;
+}
+
+#three-canvas{
+    position: absolute;
+}
 #three-canvas-wr{
     min-height: 500px;
     font-size: 0;
@@ -17,6 +35,17 @@
 @media screen and (min-width: 1024px) {
     #three-canvas-wr{
         min-height: 80vh;
+    }
+}
+
+@media screen and (max-width: 575px) {
+    .hide-mobile{
+        display: none;
+    }
+}
+@media screen and (min-width: 575px) {
+    .hide-desktop{
+        display: none;
     }
 }
 
