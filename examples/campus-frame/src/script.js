@@ -9,7 +9,7 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
  */
 
 
-const projectName = "Campus";
+const projectName = "Campus frame";
 
 
 function main() {
@@ -47,7 +47,7 @@ function main() {
          * Camera
          */
         const camera = new THREE.PerspectiveCamera(35, sizes.width / sizes.height)
-        camera.position.set(5.5, 3.5, 5.5)
+        camera.position.set(37, 14, 22)
 
         /**
          * Controls
@@ -160,12 +160,12 @@ function main() {
         
         document.addEventListener('mousemove', (event) => {
             
-            mouse.x = (event.clientX / sizes.width) * 2 - 1;
-            mouse.y = -(event.clientY / sizes.height) * 2 + 1;
+            // mouse.x = (event.clientX / sizes.width) * 2 - 1;
+            // mouse.y = -(event.clientY / sizes.height) * 2 + 1;
             
             
-            raycaster.setFromCamera( mouse, camera );
-            const intersects = raycaster.intersectObjects( scene.children );
+            // raycaster.setFromCamera( mouse, camera );
+            // const intersects = raycaster.intersectObjects( scene.children );
             
             
             // if (intersects.length > 0) {
