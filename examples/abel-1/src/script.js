@@ -114,12 +114,12 @@ function main() {
         gltfLoader.setDRACOLoader(dracoLoader);
         gltfLoader.load(
             // 'BoxTextured/BoxTextured.gltf',
-            'campus_test_2/campus_test_2.gltf',
+            '7/7.gltf',
             (gltf) => {
 
 
                 console.log(gltf)
-                gltf.scene.children[0].children[0].material.opacity = .5
+                // gltf.scene.children[0].children[0].material.opacity = .5
                 scene.add(gltf.scene)
             }
         )
