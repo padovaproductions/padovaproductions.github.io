@@ -21,7 +21,7 @@ function main() {
         const blockColor = 0x5DADE2;
         const blockHoverColor = 0xFFDB4B;
         const containerColor = 0xEEEEEE;
-        
+
 
         const scene = new THREE.Scene();
         const mouse = new THREE.Vector2();
@@ -31,8 +31,8 @@ function main() {
         let INTERSECTED = [false, false];
 
         const sizes = {
-            width: canvasWrapper.offsetWidth,
-            height: canvasWrapper.offsetHeight,
+            width: window.innerWidth,
+            height: window.innerHeight,
         }
 
 
@@ -40,7 +40,7 @@ function main() {
          * Camera
          */
         const camera = new THREE.PerspectiveCamera(35, sizes.width / sizes.height)
-        camera.position.set(-6, 10, 10)
+        camera.position.set(30, 20, 20)
 
         /**
          * Controls
@@ -63,11 +63,11 @@ function main() {
         renderer.shadowMap.enabled = true;
         // renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
-        
+
         /**
          * Lights
          */
-        const ambientLight = new THREE.AmbientLight( 0xffffff, 1 );
+        const ambientLight = new THREE.AmbientLight( 0xffffff, .6 );
         scene.add( ambientLight );
 
         const light = new THREE.DirectionalLight(0xffffff, .5);
@@ -84,22 +84,22 @@ function main() {
         light.shadow.radius = 6;
         scene.add(light);
 
-        // const helper = new THREE.CameraHelper( light.shadow.camera );
-        // scene.add( helper );
+        const helper = new THREE.CameraHelper( light.shadow.camera );
+        scene.add( helper );
 
 
-        const planeGeom = new THREE.PlaneGeometry( 8, 8 );
-        const planeMaterial = new THREE.MeshStandardMaterial( {color: 0xbdbdbd, side: THREE.DoubleSide} );
-        const plane = new THREE.Mesh( planeGeom, planeMaterial );
-        plane.rotation.x = Math.PI/2;
-        plane.position.y = -0.01;
-        plane.receiveShadow = true;
-        scene.add( plane );
+        // const planeGeom = new THREE.PlaneGeometry( 8, 8 );
+        // const planeMaterial = new THREE.MeshStandardMaterial( {color: 0xbdbdbd, side: THREE.DoubleSide} );
+        // const plane = new THREE.Mesh( planeGeom, planeMaterial );
+        // plane.rotation.x = Math.PI/2;
+        // plane.position.y = -0.01;
+        // plane.receiveShadow = true;
+        // scene.add( plane );
 
 
 
 
-        
+
         const material = new THREE.MeshStandardMaterial({
             color: blockColor,
             opacity: .5,
@@ -114,23 +114,24 @@ function main() {
         gltfLoader.setDRACOLoader(dracoLoader);
         gltfLoader.load(
             // 'BoxTextured/BoxTextured.gltf',
-            'poly_25k/25k_poly_test.gltf',
+            'campus_minimal/campus.gltf',
             (gltf) => {
 
 
                 console.log(gltf)
-                // gltf.scene.children[0].children[0].material.color = 0xbdbdbd
+                gltf.scene.castShadow=true
+                gltf.scene.receiveShadow=true
                 scene.add(gltf.scene)
             }
         )
 
 
 
-        // You are going to want to watch out for scaling and positioning of the 
+        // You are going to want to watch out for scaling and positioning of the
         // objects if you feel like it didn't load but you still don't get errors
         window.addEventListener("resize", (event) => {
-            sizes.width = canvasWrapper.offsetWidth;
-            sizes.height = canvasWrapper.offsetHeight;
+            sizes.width = window.innerWidth ;
+            sizes.height = window.innerHeight;
             camera.aspect = sizes.width / sizes.height;
             camera.updateProjectionMatrix();
             renderer.setSize(sizes.width, sizes.height);
@@ -155,7 +156,7 @@ function main() {
 // init
 window.addEventListener('load', () => {
     main();
-    document.getElementById('example-nav').innerHTML= 
+    document.getElementById('example-nav').innerHTML=
         `
         <div class="card bg-light mb-3" style="max-width: 18rem;">
             <div class="card-header">
