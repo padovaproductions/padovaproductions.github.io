@@ -1,12 +1,17 @@
 import './style.css'
 import * as THREE from 'three'
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
-import gsap from 'gsap';
+import * as dat from 'dat.gui';
+import gsap from 'gsap'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader'
 
 
+// Get the geometry of the model - and that only -with positioning
 
+// Lights, materials, everything else is from here
+
+// Add rotation/motion positions to dat gui -- add actions via GUI buttons
 
 
 
@@ -14,7 +19,7 @@ import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader'
 const projectName = "Abel-1";
 
 
-function main() {
+function init() {
     const canvasWrapper = document.getElementById('three-canvas-wr')
     const canvas = document.querySelector('.three-canvas');
     if( canvas != null ){
@@ -26,9 +31,9 @@ function main() {
         const scene = new THREE.Scene();
         const mouse = new THREE.Vector2();
         const raycaster = new THREE.Raycaster();
-        let mixer = null;
 
         let INTERSECTED = [false, false];
+        let importedGLTF = undefined;
 
         const sizes = {
             width: window.innerWidth,
@@ -36,17 +41,51 @@ function main() {
         }
 
 
+        
+        /**
+         * GUI - press 'H' on keyboard to toggle hide/show
+        */
+        const gui = new dat.GUI({
+            width: 300
+        });
+        // gui.hide()
+
+
         /**
          * Camera
          */
         const camera = new THREE.PerspectiveCamera(35, sizes.width / sizes.height)
-        camera.position.set(30, 20, 20)
+        camera.position.set(8,4,4)
+        
+
+        const tweakable_params = {
+            blockColor,
+            blockHoverColor,
+            containerColor, 
+            toggleShadows: ()=>{
+                recursiveSetShadow(importedGLTF)
+            }
+        }
+
+
 
         /**
          * Controls
          */
         const controls = new OrbitControls(camera, canvas);
         controls.enableDamping = true;
+        controls.autoRotateSpeed = .4; // # GUI
+        controls.maxPolarAngle = Math.PI/2; // # GUI
+        controls.minDistance = .4;
+        controls.maxDistance = 20;
+        const motionFolder = gui.addFolder('Motion Controls')
+        motionFolder.open()
+        motionFolder.add( controls, 'autoRotate' ).name("Auto rotate");
+
+
+
+
+
 
         /**
          * Renderer
@@ -70,22 +109,32 @@ function main() {
         const ambientLight = new THREE.AmbientLight( 0xffffff, .6 );
         scene.add( ambientLight );
 
-        const light = new THREE.DirectionalLight(0xffffff, .5);
-        light.position.set(2, 5, 6);
+        const light = new THREE.DirectionalLight(0xffffff, .62);
+        let r = 3;
+        light.position.set(2.5, 3, 4, );
         light.castShadow = true;
-        light.shadow.mapSize.width = 1024 * 2;
-        light.shadow.mapSize.height = 1024 * 2;
-        light.shadow.camera.top = 6;
-        light.shadow.camera.right = 6;
-        light.shadow.camera.left = -6;
-        light.shadow.camera.bottom = -6;
+        light.shadow.mapSize.width = 1024 * 4;
+        light.shadow.mapSize.height = 1024 * 4;
+        light.shadow.camera.top = r;
+        light.shadow.camera.right = r;
+        light.shadow.camera.left = -r;
+        light.shadow.camera.bottom = -r;
         light.shadow.camera.near = 3;
-        light.shadow.camera.far = 13;
-        light.shadow.radius = 6;
+        light.shadow.camera.far = 8;
+        light.shadow.radius = 3;
+        light.shadow.bias = -0.001;
         scene.add(light);
 
-        const helper = new THREE.CameraHelper( light.shadow.camera );
-        scene.add( helper );
+        const lightHelper = new THREE.CameraHelper( light.shadow.camera );
+        lightHelper.visible = false;
+        scene.add( lightHelper );
+        
+        const lightsFolder = gui.addFolder('Lights')
+        lightsFolder.open()
+        lightsFolder.add( lightHelper, 'visible' ).name("Light helper box");
+        lightsFolder.add( light, 'intensity', 0, 1, 0.01 ).name("Directional light int.");
+        lightsFolder.add( ambientLight, 'intensity', 0, 1, 0.01 ).name("Ambient light int.");
+        lightsFolder.add( tweakable_params, 'toggleShadows' ).name("Show shadows");
 
 
         // const planeGeom = new THREE.PlaneGeometry( 8, 8 );
@@ -113,15 +162,14 @@ function main() {
         const gltfLoader = new GLTFLoader();
         gltfLoader.setDRACOLoader(dracoLoader);
         gltfLoader.load(
-            // 'BoxTextured/BoxTextured.gltf',
-            'campus_minimal/campus.gltf',
+            'campus_minimal4/campus_minimal/campus.gltf',
             (gltf) => {
 
-
-                console.log(gltf)
-                gltf.scene.castShadow=true
-                gltf.scene.receiveShadow=true
-                scene.add(gltf.scene)
+                importedGLTF = gltf.scene;
+                console.log(importedGLTF)
+                recursiveSetShadow(importedGLTF, 'hide')
+                recursiveSetShadow(importedGLTF)
+                scene.add(importedGLTF)
             }
         )
 
@@ -143,19 +191,34 @@ function main() {
          * Animate
          */
         const tick = () => {
+            // You can't update the camera if you call constrols update on the orbit control in the tick function
             controls.update();
             renderer.render(scene, camera)
             window.requestAnimationFrame(tick)
         }
         tick()
+    }
+}
 
+
+function recursiveSetShadow(three_obj, hide){
+    if(three_obj.hasOwnProperty('castShadow')){
+        three_obj.castShadow = hide ? false : (!three_obj.castShadow);
+    }
+    if(three_obj.hasOwnProperty('receiveShadow')){
+        three_obj.receiveShadow = hide ? false : (!three_obj.receiveShadow);
+    }
+    if ( three_obj.hasOwnProperty('children') && three_obj.children.length > 0 ){ 
+        three_obj.children.forEach(element => {
+            recursiveSetShadow(element, hide);
+        }); 
     }
 }
 
 
 // init
 window.addEventListener('load', () => {
-    main();
+    init();
     document.getElementById('example-nav').innerHTML=
         `
         <div class="card bg-light mb-3" style="max-width: 18rem;">
