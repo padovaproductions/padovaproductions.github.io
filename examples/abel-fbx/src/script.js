@@ -7,7 +7,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader'
 
 
-const projectName = "Abel-1";
+const projectName = "Abel-FBX";
 let modell = {};
 
 
@@ -188,7 +188,7 @@ function init() {
         const gltfLoader = new GLTFLoader();
         gltfLoader.setDRACOLoader(dracoLoader);
         gltfLoader.load(
-            'campus_minimal_5/campus_minimal/campus.gltf',
+            'campus_minimal_5/campus.gltf',
             (gltf) => {
 
                 const importCopy = gltf.scene;
@@ -254,7 +254,7 @@ function init() {
             camera.aspect = sizes.width / sizes.height;
             camera.updateProjectionMatrix();
             renderer.setSize(sizes.width, sizes.height);
-            console.log(camera.position)
+            // console.log(camera.position)
         });
 
 
