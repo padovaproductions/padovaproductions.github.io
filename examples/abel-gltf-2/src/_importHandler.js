@@ -6,16 +6,18 @@ import { buildingMaterial, grey1_Material, grey2_Material } from './_materials';
 
 
 export function handleImportedObject( gltf, scene, modell ){
+    console.log(gltf.scene);
     const importCopy = [... gltf.scene.children];
+    console.log(importCopy);
     modell['trees'] = importCopy[0];
     modell['building_base'] = importCopy[1];
     modell['park'] = importCopy[2];
     modell['paths_topo'] = importCopy[3];
     modell['lake'] = importCopy[4];
-    modell['floor_0'] = importCopy[5];
-    modell['floor_1'] = importCopy[6];
-    modell['floor_2'] = importCopy[8];
-    modell['floor_3'] = importCopy[7];
+    modell['floor_0'] = importCopy[8];
+    modell['floor_1'] = importCopy[5];
+    modell['floor_2'] = importCopy[7];
+    modell['floor_3'] = importCopy[6];
     modell['room_1'] = importCopy[10];
     modell['room_2'] = importCopy[9];
     
