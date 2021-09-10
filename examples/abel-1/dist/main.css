@@ -22,4 +22,10 @@
     overflow: hidden;
 }
 
+.test-navs{
+    position: fixed;
+    top: 120px;
+    left: 20px;
+}
+
 /*# sourceMappingURL=main.css.map*/

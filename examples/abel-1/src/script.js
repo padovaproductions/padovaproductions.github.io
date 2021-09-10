@@ -17,6 +17,7 @@ import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader'
 
 
 const projectName = "Abel-1";
+let modell = {};
 
 
 function init() {
@@ -25,7 +26,8 @@ function init() {
     if( canvas != null ){
         const blockColor = 0x5DADE2;
         const blockHoverColor = 0xFFDB4B;
-        const containerColor = 0xEEEEEE;
+        const containerColor = 0xD6D6D6;
+        const treeColor = 0x117A65;
 
 
         const scene = new THREE.Scene();
@@ -33,7 +35,6 @@ function init() {
         const raycaster = new THREE.Raycaster();
 
         let INTERSECTED = [false, false];
-        let importedGLTF = undefined;
 
         const sizes = {
             width: window.innerWidth,
@@ -55,7 +56,8 @@ function init() {
          * Camera
          */
         const camera = new THREE.PerspectiveCamera(35, sizes.width / sizes.height)
-        camera.position.set(8,4,4)
+        // camera.position.set(8,4,4);
+        camera.position.set(-4.5, 2.1, -4.2);
         
 
         const tweakable_params = {
@@ -63,8 +65,9 @@ function init() {
             blockHoverColor,
             containerColor, 
             toggleShadows: ()=>{
-                recursiveSetShadow(importedGLTF)
-            }
+                recursiveSetShadow(modell)
+            },
+            lightRotation: 0,
         }
 
 
@@ -106,12 +109,17 @@ function init() {
         /**
          * Lights
          */
-        const ambientLight = new THREE.AmbientLight( 0xffffff, .6 );
+        const ambientLight = new THREE.AmbientLight( 0xffffff, .78 );
         scene.add( ambientLight );
 
         const light = new THREE.DirectionalLight(0xffffff, .62);
         let r = 3;
-        light.position.set(2.5, 3, 4, );
+        const initLightPosRotation = -0.28;
+        const initLightPos = {
+            x: Math.sin( (initLightPosRotation) * Math.PI) * 4,
+            z: Math.cos( (initLightPosRotation) * Math.PI) * 4,
+        };
+        light.position.set( initLightPos.x, 3, initLightPos.z );
         light.castShadow = true;
         light.shadow.mapSize.width = 1024 * 4;
         light.shadow.mapSize.height = 1024 * 4;
@@ -134,6 +142,10 @@ function init() {
         lightsFolder.add( lightHelper, 'visible' ).name("Light helper box");
         lightsFolder.add( light, 'intensity', 0, 1, 0.01 ).name("Directional light int.");
         lightsFolder.add( ambientLight, 'intensity', 0, 1, 0.01 ).name("Ambient light int.");
+        lightsFolder.add( tweakable_params, 'lightRotation', -1, 1, 0.01 ).name("Light rotation").setValue(initLightPosRotation).onChange( (value) => {
+            light.position.x = Math.sin(value * Math.PI) * 4;
+            light.position.z = Math.cos(value * Math.PI) * 4;
+        });
         lightsFolder.add( tweakable_params, 'toggleShadows' ).name("Show shadows");
 
 
@@ -149,12 +161,35 @@ function init() {
 
 
 
-        const material = new THREE.MeshStandardMaterial({
+        const buildingMaterial = new THREE.MeshStandardMaterial({
             color: blockColor,
             opacity: .5,
             transparent: true,
             side: THREE.DoubleSide,
         });
+        const plantMaterial = new THREE.MeshStandardMaterial({
+            color: treeColor,
+            opacity: 1,
+            transparent: true,
+            side: THREE.DoubleSide,
+        });
+        const grey1_Material = new THREE.MeshStandardMaterial({
+            color: containerColor,
+            opacity: 1,
+            transparent: true,
+            side: THREE.DoubleSide,
+        });
+        const grey2_Material = new THREE.MeshStandardMaterial({
+            color: 0xD0D0D0,
+            opacity: 1,
+            transparent: true,
+            side: THREE.DoubleSide,
+        });
+
+        
+        const buildingFolder = gui.addFolder('Building')
+        buildingFolder.open()
+        buildingFolder.add( buildingMaterial, 'opacity', .1, 1, 0.1 ).name("Walls opacity");
 
         const dracoLoader = new DRACOLoader();
         dracoLoader.setDecoderPath('/draco/')
@@ -165,11 +200,56 @@ function init() {
             'campus_minimal4/campus_minimal/campus.gltf',
             (gltf) => {
 
-                importedGLTF = gltf.scene;
-                console.log(importedGLTF)
-                recursiveSetShadow(importedGLTF, 'hide')
-                recursiveSetShadow(importedGLTF)
-                scene.add(importedGLTF)
+                const importCopy = gltf.scene;
+                modell['trees'] = importCopy.children[0];
+                modell['building_base'] = importCopy.children[1];
+                modell['park'] = importCopy.children[2];
+                modell['paths_topo'] = importCopy.children[3];
+                modell['lake'] = importCopy.children[4];
+                modell['floor_0'] = importCopy.children[5];
+                modell['floor_1'] = importCopy.children[6];
+                modell['floor_2'] = importCopy.children[8];
+                modell['floor_3'] = importCopy.children[7];
+                modell['room_1'] = importCopy.children[10];
+                modell['room_2'] = importCopy.children[9];
+                
+                    
+                // Environment mods
+                modell['park'].material = grey2_Material;
+                [ modell['building_base'], modell['paths_topo'] ].forEach(el => {
+                    el.material = grey1_Material;
+                });
+                modell['trees'].children.forEach(el => {
+                    el.material = grey2_Material;
+                });
+
+                // Building mods
+                let round = 1;
+                [
+                    modell['floor_0'], 
+                    modell['floor_1'], 
+                    modell['floor_2'], 
+                    modell['floor_3']
+                ].forEach(element => {
+                    element.material = buildingMaterial
+                    element.position.y = element.position.y + (0.001 * round);
+                    round++;
+                });
+                
+
+                modell['room_1'].visible = false
+                modell['room_2'].visible = false
+                modell['room_1'].material = buildingMaterial
+                modell['room_2'].material = buildingMaterial
+                recursiveSetShadow(modell, 'hide')
+                recursiveSetShadow(modell)
+
+                console.log(modell);
+                for (const key in modell) {
+                    recursiveSetShadow(modell[key], 'hide')
+                    recursiveSetShadow(modell[key])
+                    scene.add(modell[key])
+                }
             }
         )
 
@@ -183,6 +263,7 @@ function init() {
             camera.aspect = sizes.width / sizes.height;
             camera.updateProjectionMatrix();
             renderer.setSize(sizes.width, sizes.height);
+            console.log(camera.position)
         });
 
 
@@ -213,6 +294,24 @@ function recursiveSetShadow(three_obj, hide){
             recursiveSetShadow(element, hide);
         }); 
     }
+}
+
+
+
+function liftLevels(){
+    [ modell['floor_0'], modell['floor_1'], modell['floor_2'], modell['floor_3']].forEach(el => {
+        gsap.to( el.position, { y: (el.position.y * 3) + .25 , duration: 1})
+    });
+}
+
+function showRooms(){
+    modell['room_1'].visible = true
+    modell['room_2'].visible = true
+}
+
+document.getElementById('liftLevels').onclick = () => { 
+    liftLevels(); 
+    showRooms();
 }
 
 
