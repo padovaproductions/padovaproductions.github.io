@@ -1,7 +1,7 @@
-import { AmbientLight, DirectionalLight, CameraHelper } from 'three'
+import { AmbientLight, DirectionalLight, CameraHelper, Color } from 'three'
 import { recursiveAddShadow } from './_helpers'
 
-
+// Sunrise color: #E67E22
 
 export function initLights( scene, modell, gui, guiVariables ){
     const ambientLight = new AmbientLight( 0xffffff, .78 );
@@ -9,7 +9,7 @@ export function initLights( scene, modell, gui, guiVariables ){
 
     const light = new DirectionalLight(0xffffff, .62);
     let r = 3;
-    const initLightPosRotation = -0.28; // Ranging from -1 to 1 ]
+    const initLightPosRotation = 0.4; // Range: [-1, 1]
     const initLightPos = {
         x: Math.sin( (initLightPosRotation) * Math.PI) * 4,
         z: Math.cos( (initLightPosRotation) * Math.PI) * 4,
@@ -35,15 +35,23 @@ export function initLights( scene, modell, gui, guiVariables ){
     const lightsFolder = gui.addFolder('Lights')
     lightsFolder.open()
     lightsFolder.add( lightHelper, 'visible' ).name("Light helper box");
+    lightsFolder.add( guiVariables, 'allowShadows' ).name("Show shadows").onChange( (value) => {
+        for (const key in modell) {
+            recursiveAddShadow(modell[key], value)
+        }
+    });
     lightsFolder.add( light, 'intensity', 0, 1, 0.01 ).name("Directional light int.");
     lightsFolder.add( ambientLight, 'intensity', 0, 1, 0.01 ).name("Ambient light int.");
     lightsFolder.add( guiVariables, 'lightRotation', -1, 1, 0.01 ).name("Light rotation").setValue(initLightPosRotation).onChange( (value) => {
         light.position.x = Math.sin(value * Math.PI) * 4;
         light.position.z = Math.cos(value * Math.PI) * 4;
     });
-    lightsFolder.add( guiVariables, 'allowShadows' ).name("Show shadows").onChange( (value) => {
-        for (const key in modell) {
-            recursiveAddShadow(modell[key], value)
-        }
+    lightsFolder.add( guiVariables, 'sunset', /*0*/ 25, /*100*/ 75, 1 ).name("Sunset").setValue(-(initLightPosRotation*50)+50).onChange( (value) => {
+        light.color = new Color(`hsl(30, ${value}%, ${(100 - value)*2}%)`);
+
+        // convert [0, 100] range to [-1, 1]
+        let rotVal = (value - 50)/50;
+        light.position.x = Math.sin(-rotVal * Math.PI) * 4;
+        light.position.z = Math.cos(-rotVal * Math.PI) * 4;
     });
 }

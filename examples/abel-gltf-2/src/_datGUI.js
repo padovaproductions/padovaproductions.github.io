@@ -15,4 +15,5 @@ export function initGUI(){
 export const guiVariables = {
     lightRotation: 0,
     allowShadows: true,
+    sunset: 0,
 }
