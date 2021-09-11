@@ -7,7 +7,7 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
 export function initControls( camera, canvas, gui ){
     const controls = new OrbitControls(camera, canvas);
     controls.enableDamping = true;
-    controls.autoRotate = true;
+    controls.autoRotate = false;
     controls.autoRotateSpeed = .4;
     controls.maxPolarAngle = Math.PI/2;
     controls.minDistance = .4;
