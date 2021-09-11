@@ -6,20 +6,22 @@ import { buildingMaterial, grey1_Material, grey2_Material } from './_materials';
 
 
 export function handleImportedObject( gltf, scene, modell, roomsArray, levelsArray ){
-    
-    const importCopy = [... gltf.scene.children];
-    
-    modell['trees'] = importCopy[0];
-    modell['building_base'] = importCopy[1];
-    modell['park'] = importCopy[2];
-    modell['paths_topo'] = importCopy[3];
-    modell['lake'] = importCopy[4];
-    modell['floor_0'] = importCopy[8];
-    modell['floor_1'] = importCopy[5];
-    modell['floor_2'] = importCopy[7];
-    modell['floor_3'] = importCopy[6];
-    modell['room_1'] = importCopy[10];
-    modell['room_2'] = importCopy[9];
+
+    // 'getObjectByName()' is a native Three.js method on the Object3D class.
+    // It is better that using indexes of the desired element, because as you use 
+    // an element from the imported object, it gets removed from there, and indicing will change. 
+    // But with 'getObjectByName()', this doesn't matter.
+    modell['trees'] = gltf.scene.getObjectByName('trees');
+    modell['building_base'] = gltf.scene.getObjectByName('building_base');
+    modell['park'] = gltf.scene.getObjectByName('park');
+    modell['paths_topo'] = gltf.scene.getObjectByName('paths_Retopo');
+    modell['lake'] = gltf.scene.getObjectByName('Lake_Retopo');
+    modell['floor_0'] = gltf.scene.getObjectByName('floor_0_v2');
+    modell['floor_1'] = gltf.scene.getObjectByName('floor_1');
+    modell['floor_2'] = gltf.scene.getObjectByName('floor_2');
+    modell['floor_3'] = gltf.scene.getObjectByName('floor_3');
+    modell['room_1'] = gltf.scene.getObjectByName('room1');
+    modell['room_2'] = gltf.scene.getObjectByName('room2');
 
     
     levelsArray.push(modell['floor_0']),
@@ -63,6 +65,5 @@ export function handleImportedObject( gltf, scene, modell, roomsArray, levelsArr
         scene.add(modell[key])
     }
     
-    console.log(modell);
     return modell;
 }
