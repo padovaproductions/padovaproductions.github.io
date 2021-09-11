@@ -5,10 +5,10 @@ import { buildingMaterial, grey1_Material, grey2_Material } from './_materials';
 
 
 
-export function handleImportedObject( gltf, scene, modell ){
-    console.log(gltf.scene);
+export function handleImportedObject( gltf, scene, modell, roomsArray, levelsArray ){
+    
     const importCopy = [... gltf.scene.children];
-    console.log(importCopy);
+    
     modell['trees'] = importCopy[0];
     modell['building_base'] = importCopy[1];
     modell['park'] = importCopy[2];
@@ -20,7 +20,17 @@ export function handleImportedObject( gltf, scene, modell ){
     modell['floor_3'] = importCopy[6];
     modell['room_1'] = importCopy[10];
     modell['room_2'] = importCopy[9];
+
     
+    levelsArray.push(modell['floor_0']),
+    levelsArray.push(modell['floor_1']),
+    levelsArray.push(modell['floor_2']),
+    levelsArray.push(modell['floor_3']),
+
+
+    roomsArray.push(modell['room_1']),
+    roomsArray.push(modell['room_2']),
+ 
         
     // Environment mods
     modell['park'].material = grey2_Material;
@@ -33,22 +43,20 @@ export function handleImportedObject( gltf, scene, modell ){
 
     // Building mods
     let round = 1;
-    [
-        modell['floor_0'], 
-        modell['floor_1'], 
-        modell['floor_2'], 
-        modell['floor_3']
-    ].forEach(element => {
+    levelsArray.forEach(element => {
+        element.userData['initialPos'] = {};
+        element.userData.initialPos['x'] = element.position.x;
+        element.userData.initialPos['y'] = element.position.y;
+        element.userData.initialPos['z'] = element.position.z;
         element.material = buildingMaterial
-        element.position.y = element.position.y + (0.001 * round);
+        element.position.y = element.position.y + (0.0005 * round);
         round++;
     });
     
-
-    modell['room_1'].visible = false
-    modell['room_2'].visible = false
-    modell['room_1'].material = buildingMaterial
-    modell['room_2'].material = buildingMaterial
+    roomsArray.forEach(element => {
+        element.visible = false;
+        element.material = buildingMaterial;
+    });
 
     for (const key in modell) {
         recursiveAddShadow(modell[key], true)

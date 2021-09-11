@@ -2,7 +2,7 @@ import './style.css';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
-import { liftLevels, showRooms, addNavPanel } from './_helpers';
+import { liftLevels, showRooms, hideRooms, resetPositions, addNavPanel, showLayoutView, highlightLevel } from './_helpers';
 import { initControls } from './_controls';
 import { initLights } from './_lights';
 import { initRenderer } from './_renderer';
@@ -16,6 +16,8 @@ export function initThree( projectName ) {
     const canvas = document.querySelector('.three-canvas');
     if( canvas != null ){
         let modell = {};
+        let levelsArray = [];
+        let roomsArray = [];
         const sizes = { width: window.innerWidth, height: window.innerHeight }
         const scene = new THREE.Scene();
         const gui = initGUI();
@@ -36,7 +38,7 @@ export function initThree( projectName ) {
             'campus_minimal_6/campus_minimal/campus.gltf',
             (gltf) => {
 
-                handleImportedObject(gltf, scene, modell);
+                handleImportedObject(gltf, scene, modell, roomsArray, levelsArray);
 
             }
         )
@@ -54,9 +56,28 @@ export function initThree( projectName ) {
         
 
 
+        const levellHighlightButtons = document.getElementsByClassName('highlight-level');
+        Array.from(levellHighlightButtons).forEach(function(button) {
+            button.onclick = function() { 
+                highlightLevel(levelsArray, modell[this.dataset.floor].uuid)
+            }
+        });
+
         document.getElementById('liftLevels').onclick = () => { 
-            liftLevels([ modell['floor_0'], modell['floor_1'], modell['floor_2'], modell['floor_3'] ]); 
-            showRooms([ modell['room_1'], modell['room_2'] ]);
+            liftLevels( levelsArray ); 
+            showRooms( roomsArray );
+        }
+
+        document.getElementById('layoutView').onclick = () => { 
+            showLayoutView( levelsArray );
+            showRooms( roomsArray );
+        }
+
+        document.getElementById('resetPositions').onclick = () => { 
+            resetPositions( levelsArray );
+            setTimeout(()=>{
+                hideRooms( roomsArray );
+            },1000);
         }
 
 
