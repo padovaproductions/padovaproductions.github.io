@@ -104,11 +104,3 @@ export function addNavPanel( domID, projectName ){
     </div>
     `;
 }
-
-export function fadeElementOut(element){
-    console.log(element.style);
-    element.style.opacity = 0;
-    setTimeout(()=>{
-        element.style.display = 'none';
-    }, 1000);
-}
