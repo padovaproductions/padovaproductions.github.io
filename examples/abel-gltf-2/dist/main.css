@@ -28,10 +28,13 @@
     left: 15px;
 }
 
+
+
+
+/* Bootstrap overrides */
 .btn-outline-primary{
     background-color: rgba(255, 255, 255, .5);
 }
-
 .btn-outline-primary:focus{
     box-shadow: none;
 }
