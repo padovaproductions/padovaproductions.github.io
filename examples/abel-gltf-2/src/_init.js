@@ -8,12 +8,14 @@ import { initCamera } from './_camera';
 import { initGUI, guiVariables } from './_datGUI';
 import { handleImportedObject } from './_importHandler'
 import { initGLTFLoader } from './_GLTFloader'
+import gsap from 'gsap'
 
 
 
 export function initThree( projectName ) {
     const canvas = document.querySelector('.three-canvas');
     if( canvas != null ){
+        let cornerRoom = {};
         let modell = {};
         let levelsArray = [];
         let roomsArray = [];
@@ -26,16 +28,13 @@ export function initThree( projectName ) {
         initLights( scene, modell, gui, guiVariables );
         const gltfLoader = initGLTFLoader();
         gltfLoader.load(
-            'campus_minimal_6/campus_minimal/campus.gltf',
+            'campus_minimal_w_room/campus_minimal/campus.gltf',
             (gltf) => {
 
-                handleImportedObject(gltf, scene, modell, roomsArray, levelsArray);
+                handleImportedObject(gltf, scene, modell, roomsArray, levelsArray, cornerRoom, gui);
 
             }
-        )
-
-
-
+        );
 
 
 
@@ -45,7 +44,7 @@ export function initThree( projectName ) {
             camera.aspect = sizes.width / sizes.height;
             camera.updateProjectionMatrix();
             renderer.setSize(sizes.width, sizes.height);
-            // console.log(camera.position)
+            console.log(camera.position)
         });
         
 
@@ -64,6 +63,20 @@ export function initThree( projectName ) {
         document.getElementById('layoutView').onclick = () => { 
             showLayoutView( levelsArray );
             showRooms( roomsArray );
+        }
+        
+        document.getElementById('showClassroom').onclick = () => { 
+            resetPositions( levelsArray );
+            gsap.to( camera.position, { 
+                x: -1.591,
+                y: 0.5642, 
+                z: 0.2915, 
+                duration: 1
+            });
+        }
+
+        document.getElementById('roomWalls').onclick = () => { 
+            cornerRoom['room'].visible = !cornerRoom['room'].visible;
         }
 
         document.getElementById('resetPositions').onclick = () => { 

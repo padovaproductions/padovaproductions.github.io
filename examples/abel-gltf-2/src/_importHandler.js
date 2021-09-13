@@ -1,11 +1,13 @@
+import { Group } from 'three';
 import { recursiveAddShadow } from './_helpers';
-import { buildingMaterial, grey1_Material, grey2_Material } from './_materials';
+import { buildingMaterial, grey1_Material, grey2_Material, addBuildingOpacityToGUI } from './_materials';
 
 
 
 
 
-export function handleImportedObject( gltf, scene, modell, roomsArray, levelsArray ){
+export function handleImportedObject( gltf, scene, modell, roomsArray, levelsArray, cornerRoom, gui ){
+
 
     // 'getObjectByName()' is a native Three.js method on the Object3D class.
     // It is better that using indexes of the desired element, because as you use 
@@ -16,14 +18,40 @@ export function handleImportedObject( gltf, scene, modell, roomsArray, levelsArr
     modell['park'] = gltf.scene.getObjectByName('park');
     modell['paths_topo'] = gltf.scene.getObjectByName('paths_Retopo');
     modell['lake'] = gltf.scene.getObjectByName('Lake_Retopo');
-    modell['floor_0'] = gltf.scene.getObjectByName('floor_0_v2');
+    modell['floor_0'] = gltf.scene.getObjectByName('floor_0');
     modell['floor_1'] = gltf.scene.getObjectByName('floor_1');
     modell['floor_2'] = gltf.scene.getObjectByName('floor_2');
-    modell['floor_3'] = gltf.scene.getObjectByName('floor_3');
     modell['room_1'] = gltf.scene.getObjectByName('room1');
     modell['room_2'] = gltf.scene.getObjectByName('room2');
 
-    
+
+    // Assembling the classroom
+    const floor_3 = gltf.scene.getObjectByName('floor_3');
+    const desks = gltf.scene.getObjectByName('desks');
+    cornerRoom['room'] = gltf.scene.getObjectByName('corner_room');
+    cornerRoom['room'].visible = false;
+
+    floor_3.material = buildingMaterial;
+    cornerRoom['room'].material = buildingMaterial;
+    desks.material = grey1_Material;
+    desks.rotation.y = desks.rotation.y + Math.PI;
+    desks.position.x = desks.position.x + .092;
+    desks.position.z = desks.position.z - .105;
+    modell['floor_3'] = new Group();
+    modell['floor_3'].add( floor_3 );
+    modell['floor_3'].add( desks );
+    modell['floor_3'].add( cornerRoom['room'] );
+
+    modell['floor_3'].position.set(floor_3.position.x, floor_3.position.y, floor_3.position.z);
+    desks.position.set(desks.position.x - floor_3.position.x, desks.position.y -  floor_3.position.y, desks.position.z -  floor_3.position.z);
+    cornerRoom['room'].position.set(cornerRoom['room'].position.x - floor_3.position.x, cornerRoom['room'].position.y - floor_3.position.y, cornerRoom['room'].position.z - floor_3.position.z);
+    floor_3.position.set(0, 0, 0);
+
+
+
+
+
+
     levelsArray.push(modell['floor_0']),
     levelsArray.push(modell['floor_1']),
     levelsArray.push(modell['floor_2']),
@@ -43,6 +71,7 @@ export function handleImportedObject( gltf, scene, modell, roomsArray, levelsArr
         el.material = grey2_Material;
     });
 
+
     // Building mods
     let round = 1;
     levelsArray.forEach(element => {
@@ -50,7 +79,9 @@ export function handleImportedObject( gltf, scene, modell, roomsArray, levelsArr
         element.userData.initialPos['x'] = element.position.x;
         element.userData.initialPos['y'] = element.position.y;
         element.userData.initialPos['z'] = element.position.z;
-        element.material = buildingMaterial
+        if(element.hasOwnProperty('material')){
+            element.material = buildingMaterial
+        }
         element.position.y = element.position.y + (0.0005 * round);
         round++;
     });
@@ -64,6 +95,8 @@ export function handleImportedObject( gltf, scene, modell, roomsArray, levelsArr
         recursiveAddShadow(modell[key], true)
         scene.add(modell[key])
     }
+
+    addBuildingOpacityToGUI( gui, buildingMaterial );
     
     return modell;
 }

@@ -21,3 +21,10 @@ export const grey1_Material = new MeshStandardMaterial({
 export const grey2_Material = new MeshStandardMaterial({ 
     color: 0xD0D0D0 
 });
+
+
+export function addBuildingOpacityToGUI(gui, material){
+    const buildingFolder = gui.addFolder('Building');
+    buildingFolder.open();
+    buildingFolder.add( material, 'opacity', .1, 1, 0.1 ).name("Building opacity");
+}

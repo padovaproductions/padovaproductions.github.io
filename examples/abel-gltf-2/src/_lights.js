@@ -43,7 +43,7 @@ export function initLights( scene, modell, gui, guiVariables ){
     });
     lightsFolder.add( light, 'intensity', 0, 1, 0.01 ).name("Directional light int.");
     lightsFolder.add( ambientLight, 'intensity', 0, 1, 0.01 ).name("Ambient light int.");
-    lightsFolder.add( guiVariables, 'lightRotation', -1, 1, 0.01 ).name("Light rotation").setValue(initLightPosRotation).onChange( (value) => {
+    lightsFolder.add( guiVariables, 'lightRotation', -1, 1, 0.01 ).name("Light direction").setValue(initLightPosRotation).onChange( (value) => {
         light.position.x = Math.sin(value * Math.PI) * 4;
         light.position.z = Math.cos(value * Math.PI) * 4;
     });
