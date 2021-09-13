@@ -1,7 +1,5 @@
 import './style.css';
 import * as THREE from 'three';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
 import { liftLevels, showRooms, hideRooms, resetPositions, addNavPanel, showLayoutView, highlightLevel } from './_helpers';
 import { initControls } from './_controls';
 import { initLights } from './_lights';
@@ -9,6 +7,7 @@ import { initRenderer } from './_renderer';
 import { initCamera } from './_camera';
 import { initGUI, guiVariables } from './_datGUI';
 import { handleImportedObject } from './_importHandler'
+import { initGLTFLoader } from './_GLTFloader'
 
 
 
@@ -25,15 +24,7 @@ export function initThree( projectName ) {
         const renderer = initRenderer( canvas, sizes );
         const controls = initControls(camera, canvas, gui);
         initLights( scene, modell, gui, guiVariables );
-
-
-
-
-        const dracoLoader = new DRACOLoader();
-        dracoLoader.setDecoderPath('/draco/');
-
-        const gltfLoader = new GLTFLoader();
-        gltfLoader.setDRACOLoader(dracoLoader);
+        const gltfLoader = initGLTFLoader();
         gltfLoader.load(
             'campus_minimal_6/campus_minimal/campus.gltf',
             (gltf) => {
@@ -42,6 +33,9 @@ export function initThree( projectName ) {
 
             }
         )
+
+
+
 
 
 
@@ -54,7 +48,6 @@ export function initThree( projectName ) {
             // console.log(camera.position)
         });
         
-
 
         const levellHighlightButtons = document.getElementsByClassName('highlight-level');
         Array.from(levellHighlightButtons).forEach(function(button) {
