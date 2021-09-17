@@ -44,7 +44,7 @@ export function initThree( projectName ) {
             camera.aspect = sizes.width / sizes.height;
             camera.updateProjectionMatrix();
             renderer.setSize(sizes.width, sizes.height);
-            console.log(camera.position)
+            // console.log(camera.position)
         });
         
 
