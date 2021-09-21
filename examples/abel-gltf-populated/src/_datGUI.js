@@ -6,7 +6,7 @@ import * as dat from 'dat.gui';
 */
 export function initGUI(){
     const gui = new dat.GUI({ width: 300 });
-    gui.hide();
+    // gui.hide();
 
     return gui;
 }

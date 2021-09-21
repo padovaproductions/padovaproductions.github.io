@@ -9,6 +9,7 @@ import { initGUI, guiVariables } from './_datGUI';
 import { handleImportedObject } from './_importHandler'
 import { initGLTFLoader } from './_GLTFloader'
 import gsap from 'gsap'
+import Stats from 'three/examples/jsm/libs/stats.module';
 
 
 
@@ -87,10 +88,13 @@ export function initThree( projectName ) {
         }
 
 
+        const stats = Stats()
+        document.body.appendChild(stats.dom)
         /**
          * Animate
          */
         const tick = () => {
+            stats.update()
             controls.update();
             renderer.render(scene, camera)
             window.requestAnimationFrame(tick)
