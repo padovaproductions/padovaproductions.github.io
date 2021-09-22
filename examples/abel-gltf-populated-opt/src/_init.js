@@ -29,7 +29,7 @@ export function initThree( projectName ) {
         initLights( scene, modell, gui, guiVariables );
         const gltfLoader = initGLTFLoader();
         gltfLoader.load(
-            'campus_minimal/campus.gltf',
+            'campus_minimal-10/campus.gltf',
             (gltf) => {
 
                 handleImportedObject(gltf, scene, modell, roomsArray, levelsArray, cornerRoom, gui);
