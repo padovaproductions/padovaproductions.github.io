@@ -29,7 +29,7 @@ export function initThree( projectName ) {
         initLights( scene, modell, gui, guiVariables );
         const gltfLoader = initGLTFLoader();
         gltfLoader.load(
-            'campus_minimal-10/campus.gltf',
+            'campus_minimal-10-preedited/campus_nolight.gltf',
             (gltf) => {
 
                 handleImportedObject(gltf, scene, modell, roomsArray, levelsArray, cornerRoom, gui);
@@ -92,6 +92,8 @@ export function initThree( projectName ) {
         document.body.appendChild(stats.dom)
         /**
          * Animate
+         * If there's less animation, the it's probably enough to call re-render on events only:
+         * https://threejsfundamentals.org/threejs/lessons/threejs-rendering-on-demand.html
          */
         const tick = () => {
             stats.update()
@@ -99,7 +101,7 @@ export function initThree( projectName ) {
             renderer.render(scene, camera)
             window.requestAnimationFrame(tick)
         }
-        tick()
+        tick();
 
 
         

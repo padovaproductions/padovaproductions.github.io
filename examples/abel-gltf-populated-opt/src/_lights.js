@@ -17,8 +17,8 @@ export function initLights( scene, modell, gui, guiVariables ){
     };
     light.position.set( initLightPos.x, initLightPos.y, initLightPos.z );
     light.castShadow = true;
-    light.shadow.mapSize.width = 1024 * 4;
-    light.shadow.mapSize.height = 1024 * 4;
+    light.shadow.mapSize.width = 1024 * 4; // Perfomance heavy
+    light.shadow.mapSize.height = 1024 * 4; // Perfomance heavy
     light.shadow.camera.top = r;
     light.shadow.camera.right = r;
     light.shadow.camera.left = -r;
@@ -26,7 +26,7 @@ export function initLights( scene, modell, gui, guiVariables ){
     light.shadow.camera.near = 2;
     light.shadow.camera.far = 8;
     light.shadow.radius = 3;
-    light.shadow.bias = -0.001;
+    light.shadow.bias = -0.0019;
     scene.add(light);
 
     const lightHelper = new CameraHelper( light.shadow.camera );
