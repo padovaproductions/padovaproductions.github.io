@@ -2,5 +2,5 @@ import { initThree } from './_init';
 
 // init
 window.addEventListener('load', () => {
-    initThree('Abel GLTF populated');
+    initThree('GLTF populated, optimized, Draco compressed');
 });
