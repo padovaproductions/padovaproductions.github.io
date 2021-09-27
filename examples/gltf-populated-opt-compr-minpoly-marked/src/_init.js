@@ -26,7 +26,7 @@ export function initThree( projectName ) {
                 element: document.querySelector('.point-1'),
             },
             {
-                position: new THREE.Vector3(-.35, .1, -.5),
+                position: new THREE.Vector3(-.35, .3, -.5),
                 element: document.querySelector('.point-2'),
             },
             {
@@ -34,7 +34,7 @@ export function initThree( projectName ) {
                 element: document.querySelector('.point-3'),
             },
             {
-                position: new THREE.Vector3(.7, .4, -1.5),
+                position: new THREE.Vector3(.7, .5, -1.5),
                 element: document.querySelector('.point-4'),
             },
         ]
@@ -52,6 +52,20 @@ export function initThree( projectName ) {
             (gltf) => {
 
                 handleImportedObject(gltf, scene, modell, roomsArray, levelsArray, cornerRoom, gui);
+
+                const material = new THREE.LineBasicMaterial({
+                    color: 0x000000
+                });
+                
+                points.forEach(point => {
+                    const linePoints = [
+                        point.position, 
+                        new THREE.Vector3(point.position.x, 0, point.position.z)
+                    ];
+                    const geometry = new THREE.BufferGeometry().setFromPoints( linePoints );
+                    const line = new THREE.Line( geometry, material );
+                    scene.add( line );
+                });
 
             }
         );
