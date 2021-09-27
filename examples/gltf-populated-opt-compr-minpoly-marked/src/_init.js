@@ -20,7 +20,26 @@ export function initThree( projectName ) {
         let modell = {};
         let levelsArray = [];
         let roomsArray = [];
+        const points = [
+            {
+                position: new THREE.Vector3(.7, 0.13, .82),
+                element: document.querySelector('.point-1'),
+            },
+            {
+                position: new THREE.Vector3(-.35, .1, -.5),
+                element: document.querySelector('.point-2'),
+            },
+            {
+                position: new THREE.Vector3(0, .5, 1.3),
+                element: document.querySelector('.point-3'),
+            },
+            {
+                position: new THREE.Vector3(.7, .4, -1.5),
+                element: document.querySelector('.point-4'),
+            },
+        ]
         const sizes = { width: window.innerWidth, height: window.innerHeight }
+        const raycaster = new THREE.Raycaster()
         const scene = new THREE.Scene();
         const gui = initGUI();
         const camera = initCamera( sizes );
@@ -96,10 +115,40 @@ export function initThree( projectName ) {
          * https://threejsfundamentals.org/threejs/lessons/threejs-rendering-on-demand.html
          */
         const tick = () => {
-            stats.update()
+            stats.update();
             controls.update();
-            renderer.render(scene, camera)
-            window.requestAnimationFrame(tick)
+            renderer.render(scene, camera);
+            // if only custom animations are present you can re-render the scene on GSAP update
+            // if only controls, then you can use it without damping
+
+            
+            for(const point of points){
+                const screenPosition = point.position.clone();
+                screenPosition.project(camera);
+        
+                const translateX = screenPosition.x * sizes.width * 0.5;
+                const translateY = - screenPosition.y * sizes.height * 0.5;
+                point.element.style.transform = `translateX(${translateX}px) translateY(${translateY}px)`;    
+                
+                // raycaster.setFromCamera(screenPosition, camera);
+                // const intersects = raycaster.intersectObjects(scene.children, true);
+
+                
+                // if(intersects.length === 0){
+                //     point.element.classList.add('visible')
+                // }else{
+                //     // console.log(intersects)
+                //     const intersectionDistance = intersects[0].distance;
+                //     const pointDistance = point.position.distanceTo(camera.position);
+                    
+                //     if(intersectionDistance < pointDistance){
+                //         point.element.classList.remove('visible')
+                //     }else{
+                //         point.element.classList.add('visible')
+                //     }
+                // }
+            }
+            window.requestAnimationFrame(tick);
         }
         tick();
 
