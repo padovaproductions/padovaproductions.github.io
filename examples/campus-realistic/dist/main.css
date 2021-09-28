@@ -1,0 +1,87 @@
+/* General page styling */
+#example-nav{
+	position: fixed;
+	left: 15px;
+	top: 10px;
+}
+
+
+/* Site styling */
+#three-canvas{
+    position: fixed;
+    top: 0;
+    left: 0;
+    outline: none;
+}
+
+.three-canvas-wr{
+    position: fixed;
+    top: 0;
+    left: 0;
+    outline: none;
+    overflow: hidden;
+}
+
+.test-navs{
+    position: fixed;
+    top: 170px;
+    left: 15px;
+}
+
+.point{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+}
+
+.point .label{
+    position: absolute;
+    top: -11px;
+    left: -11px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: rgba(0,0,0,.6);
+    color: #ffffff;
+    text-align: center;
+    line-height: 22px;
+    font-weight: bold;
+    font-size: 12px;
+    cursor: help;
+    transform: scale(0, 0);
+    transition: all 0.3s;
+}
+
+.point.visible .label{
+    transform: scale(1, 1);
+}
+
+.point .text{
+    position: absolute;
+    top: 13px;
+    left: -11px;
+    width: 200px;
+    padding: 20px 10px 12px;
+    border-radius: 6px;
+    background: rgba(0,0,0,.6);
+    color: #ffffff;
+    line-height: 1.3em;
+    font-size: 14px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.point:hover .text{
+    opacity: 1;
+}
+
+/* Bootstrap overrides */
+.btn-outline-primary{
+    background-color: rgba(255, 255, 255, .5);
+}
+.btn-outline-primary:focus{
+    box-shadow: none;
+}
+
+/*# sourceMappingURL=main.css.map*/

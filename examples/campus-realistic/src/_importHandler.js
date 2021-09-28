@@ -8,7 +8,16 @@ import { recursiveAddShadow } from './_helpers';
 
 export function handleImportedObject( gltf, scene, modell, roomsArray, levelsArray, cornerRoom, gui ){
 
-    
+    console.log( gltf );
+    // gltf.scene.scale.set(.1, .1, .1)
+    scene.add(gltf.scene);
+
+    for (const key in gltf.scene.children) {
+        recursiveAddShadow(gltf.scene.children[key], true)
+    }
+
+    return false;
+
     modell['trees'] = gltf.scene.getObjectByName('trees');
     modell['building_base'] = gltf.scene.getObjectByName('building_base');
     modell['park'] = gltf.scene.getObjectByName('park');
@@ -55,7 +64,12 @@ export function handleImportedObject( gltf, scene, modell, roomsArray, levelsArr
 
 
     // Building strore initial pos. to reset animated motions
-    
+    levelsArray.forEach(element => {
+        element.userData['initialPos'] = {};
+        element.userData.initialPos['x'] = element.position.x;
+        element.userData.initialPos['y'] = element.position.y;
+        element.userData.initialPos['z'] = element.position.z;
+    });
     
     roomsArray.forEach(element => {
         element.visible = false;
