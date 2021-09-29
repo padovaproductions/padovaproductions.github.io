@@ -1,6 +1,6 @@
 import './style.css';
 import * as THREE from 'three';
-import { liftLevels, showRooms, hideRooms, resetPositions, addNavPanel, showLayoutView, highlightLevel } from './_helpers';
+import { liftLevels, liftAllLevels, resetPositions, addNavPanel } from './_helpers';
 import { initControls } from './_controls';
 import { initLights } from './_lights';
 import { initRenderer } from './_renderer';
@@ -26,18 +26,22 @@ export function initThree( projectName ) {
             {
                 position: new THREE.Vector3(-48, 50, -110),
                 element: document.querySelector('.point-1'),
+                cameraPos: new THREE.Vector3(-95, 66, -170),
             },
             {
                 position: new THREE.Vector3(-100, 39, -20),
                 element: document.querySelector('.point-2'),
+                cameraPos: new THREE.Vector3(-179, 45, -23),
             },
             {
                 position: new THREE.Vector3(15, 50, 88),
                 element: document.querySelector('.point-3'),
+                cameraPos: new THREE.Vector3(72, 65, 180),
             },
             {
                 position: new THREE.Vector3(96, 40, -85),
                 element: document.querySelector('.point-4'),
+                cameraPos: new THREE.Vector3(171, 52, -179),
             },
         ];
         const markerLines = [];
@@ -66,6 +70,8 @@ export function initThree( projectName ) {
                 grass.material = grey2_Material;
 
 
+
+                // points and materials
                 const material = new THREE.LineBasicMaterial({
                     color: 0x000000
                 });
@@ -80,6 +86,33 @@ export function initThree( projectName ) {
                     markerLines.push(line);
                     scene.add( line );
                 });
+
+                
+                // Handling building level mechanics 
+                const levelsArray = [
+                    gltf.scene.getObjectByName('main_B'),
+                    gltf.scene.getObjectByName('lvl1'),
+                    gltf.scene.getObjectByName('lvl_2'),
+                    gltf.scene.getObjectByName('lvl_3'),
+                ];
+                levelsArray.forEach(element => {
+                    element.userData['initialPos'] = {};
+                    element.userData.initialPos['x'] = element.position.x;
+                    element.userData.initialPos['y'] = element.position.y;
+                    element.userData.initialPos['z'] = element.position.z;
+                });
+
+                document.getElementById('liftLevels').onclick = () => { 
+                    liftLevels( levelsArray );
+                }
+                
+                document.getElementById('liftAllLevels').onclick = () => { 
+                    liftAllLevels( levelsArray );
+                }
+                
+                document.getElementById('resetPositions').onclick = () => { 
+                    resetPositions( levelsArray );
+                }
 
             }
         );
@@ -114,6 +147,17 @@ export function initThree( projectName ) {
                 grass.material = grassMaterial;
             }
         }
+
+        points.forEach(function(point) {
+            point.element.querySelector('.label').onclick = function() { 
+                gsap.to( camera.position, { 
+                    x: point.cameraPos.x,
+                    y: point.cameraPos.y, 
+                    z: point.cameraPos.z, 
+                    duration: 1.6
+                });
+            }
+        });
         
 
         const stats = Stats()

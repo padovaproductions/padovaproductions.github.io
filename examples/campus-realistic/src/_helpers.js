@@ -2,42 +2,10 @@ import gsap from 'gsap'
 
 
 
-
-export function highlightLevel( levelArray, highlightUUID ){
-    levelArray.forEach(el => {
-        if( el.uuid == highlightUUID){
-            gsap.to( el.position, {
-                x: el.userData.initialPos.x, 
-                y: .8, 
-                z: -.4, 
-                duration: 1
-            });
-        }else{
-            gsap.to( el.position, { 
-                x: el.userData.initialPos.x, 
-                y: el.userData.initialPos.y,
-                z: el.userData.initialPos.z,
-                duration: 1
-            }); 
-        }
-    });
-}
-
-export function showLayoutView( levelArray ){
+export function liftAllLevels( levelArray ){
     levelArray.forEach( (el, index) => {
         gsap.to( el.position, { 
-            x: el.userData.initialPos.x,
-            y: el.userData.initialPos.y, 
-            z: el.userData.initialPos.z + index*.8, 
-            duration: 1
-        });
-    });
-}
-
-export function liftLevels( levelArray ){
-    levelArray.forEach(el => {
-        gsap.to( el.position, { 
-            y: (el.userData.initialPos.y * 3) + .25, 
+            y: el.userData.initialPos.y + (index*8), 
             x: el.userData.initialPos.x, 
             z: el.userData.initialPos.z, 
             duration: 1
@@ -45,17 +13,19 @@ export function liftLevels( levelArray ){
     });
 }
 
-export function showRooms( roomArray ){
-    roomArray.forEach(el => {
-        el.visible = true;
+export function liftLevels( levelArray ){
+    levelArray.forEach( (el, index) => {
+        if( index > 1){
+            gsap.to( el.position, { 
+                y: el.userData.initialPos.y + (index*8), 
+                x: el.userData.initialPos.x, 
+                z: el.userData.initialPos.z, 
+                duration: 1
+            });
+        }
     });
 }
 
-export function hideRooms( roomArray ){
-    roomArray.forEach(el => {
-        el.visible = false;
-    });
-}
 
 export function resetPositions( levelArray ){
     levelArray.forEach(el => {

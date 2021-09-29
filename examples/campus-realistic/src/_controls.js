@@ -10,8 +10,8 @@ export function initControls( camera, canvas, gui ){
     controls.autoRotate = false;
     controls.autoRotateSpeed = .4;
     controls.maxPolarAngle = Math.PI/2;
-    // controls.minDistance = .4;
-    // controls.maxDistance = 20;
+    controls.minDistance = 40;
+    controls.maxDistance = 500;
     const motionFolder = gui.addFolder('Motion Controls')
     motionFolder.open()
     motionFolder.add( controls, 'autoRotate' ).name("Auto rotate");

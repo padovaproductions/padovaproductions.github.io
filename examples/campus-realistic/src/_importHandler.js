@@ -32,6 +32,8 @@ export function handleImportedObject( gltf, scene, modell, roomsArray, levelsArr
     gltf.scene.getObjectByName('lvl_3_2').material.envMapIntensity = 2;
     gltf.scene.getObjectByName('lvl1_2').material.envMap = cubeTexture;
     gltf.scene.getObjectByName('lvl1_2').material.envMapIntensity = 2;
+    gltf.scene.getObjectByName('Line001_2').material.envMap = cubeTexture;
+    gltf.scene.getObjectByName('Line001_2').material.envMapIntensity = 1;
 
 
     return true;
