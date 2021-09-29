@@ -8,8 +8,10 @@ import { initCamera } from './_camera';
 import { initGUI, guiVariables } from './_datGUI';
 import { handleImportedObject } from './_importHandler'
 import { initGLTFLoader } from './_GLTFloader'
+import { initSky } from './_sky'
 import gsap from 'gsap'
 import Stats from 'three/examples/jsm/libs/stats.module';
+import { grey2_Material } from './_materials';
 
 
 
@@ -22,22 +24,25 @@ export function initThree( projectName ) {
         let roomsArray = [];
         const points = [
             {
-                position: new THREE.Vector3(.7, 0.13, .82),
+                position: new THREE.Vector3(-48, 50, -110),
                 element: document.querySelector('.point-1'),
             },
             {
-                position: new THREE.Vector3(-.35, .3, -.5),
+                position: new THREE.Vector3(-100, 39, -20),
                 element: document.querySelector('.point-2'),
             },
             {
-                position: new THREE.Vector3(0, .5, 1.3),
+                position: new THREE.Vector3(15, 50, 88),
                 element: document.querySelector('.point-3'),
             },
             {
-                position: new THREE.Vector3(.7, .5, -1.5),
+                position: new THREE.Vector3(96, 40, -85),
                 element: document.querySelector('.point-4'),
             },
-        ]
+        ];
+        const markerLines = [];
+        let grassMaterial;
+        let grass;
         const sizes = { width: window.innerWidth, height: window.innerHeight }
         const raycaster = new THREE.Raycaster()
         const scene = new THREE.Scene();
@@ -46,6 +51,8 @@ export function initThree( projectName ) {
         const renderer = initRenderer( canvas, sizes );
         const controls = initControls(camera, canvas, gui);
         initLights( scene, modell, gui, guiVariables );
+        let sky, sun;
+        initSky(sky, sun, gui, scene, renderer, camera);
         const gltfLoader = initGLTFLoader();
         gltfLoader.load(
             'campus_web_basic_trees/campus_web_test.gltf',
@@ -53,19 +60,26 @@ export function initThree( projectName ) {
 
                 handleImportedObject(gltf, scene, modell, roomsArray, levelsArray, cornerRoom, gui);
 
-                // const material = new THREE.LineBasicMaterial({
-                //     color: 0x000000
-                // });
-                
-                // points.forEach(point => {
-                //     const linePoints = [
-                //         point.position, 
-                //         new THREE.Vector3(point.position.x, 0, point.position.z)
-                //     ];
-                //     const geometry = new THREE.BufferGeometry().setFromPoints( linePoints );
-                //     const line = new THREE.Line( geometry, material );
-                //     scene.add( line );
-                // });
+
+                grass = gltf.scene.getObjectByName('ground_2')
+                grassMaterial = grass.material.clone();
+                grass.material = grey2_Material;
+
+
+                const material = new THREE.LineBasicMaterial({
+                    color: 0x000000
+                });
+                const reusableVector3 = new THREE.Vector3();
+                points.forEach(point => {
+                    const lineGeometry = new THREE.BufferGeometry().setFromPoints( [
+                        point.position, 
+                        reusableVector3.set(point.position.x, 0, point.position.z)
+                    ]);
+                    const line = new THREE.Line( lineGeometry, material );
+                    line.visible = false;
+                    markerLines.push(line);
+                    scene.add( line );
+                });
 
             }
         );
@@ -80,46 +94,27 @@ export function initThree( projectName ) {
             renderer.setSize(sizes.width, sizes.height);
             // console.log(camera.position)
         });
-        
 
-        const levellHighlightButtons = document.getElementsByClassName('highlight-level');
-        Array.from(levellHighlightButtons).forEach(function(button) {
-            button.onclick = function() { 
-                highlightLevel(levelsArray, modell[this.dataset.floor].uuid)
+        function toggleMarkers(){
+            for(const point of points){
+                point.element.classList.toggle('visible');
             }
-        });
-
-        document.getElementById('liftLevels').onclick = () => { 
-            liftLevels( levelsArray ); 
-            showRooms( roomsArray );
-        }
-
-        document.getElementById('layoutView').onclick = () => { 
-            showLayoutView( levelsArray );
-            showRooms( roomsArray );
-        }
-        
-        document.getElementById('showClassroom').onclick = () => { 
-            resetPositions( levelsArray );
-            gsap.to( camera.position, { 
-                x: -1.591,
-                y: 0.5642, 
-                z: 0.2915, 
-                duration: 1
+            markerLines.forEach(line => {
+                line.visible = !line.visible;
             });
         }
-
-        document.getElementById('roomWalls').onclick = () => { 
-            cornerRoom['room'].visible = !cornerRoom['room'].visible;
+        document.getElementById('toggleMarkers').onclick = () => { 
+            toggleMarkers();
         }
-
-        document.getElementById('resetPositions').onclick = () => { 
-            resetPositions( levelsArray );
-            setTimeout(()=>{
-                hideRooms( roomsArray );
-            },1000);
+        
+        document.getElementById('toggleGrass').onclick = () => { 
+            if( grass.material == grassMaterial ){
+                grass.material = grey2_Material; 
+            }else{  
+                grass.material = grassMaterial;
+            }
         }
-
+        
 
         const stats = Stats()
         document.body.appendChild(stats.dom)
@@ -132,39 +127,17 @@ export function initThree( projectName ) {
             stats.update();
             controls.update();
             renderer.render(scene, camera);
-            // if only custom animations are present you can re-render the scene on GSAP update
-            // if only controls, then you can use it without damping
 
             
-            // for(const point of points){
-            //     const screenPosition = point.position.clone();
-            //     screenPosition.project(camera);
+            for(const point of points){
+                const screenPosition = point.position.clone();
+                screenPosition.project(camera);
         
-            //     const translateX = screenPosition.x * sizes.width * 0.5;
-            //     const translateY = - screenPosition.y * sizes.height * 0.5;
-            //     point.element.style.transform = `translateX(${translateX}px) translateY(${translateY}px)`;    
-                
-
-                // ### Hiding markers if not visible
-
-                // raycaster.setFromCamera(screenPosition, camera);
-                // const intersects = raycaster.intersectObjects(scene.children, true);
-
-                
-                // if(intersects.length === 0){
-                //     point.element.classList.add('visible')
-                // }else{
-                //     // console.log(intersects)
-                //     const intersectionDistance = intersects[0].distance;
-                //     const pointDistance = point.position.distanceTo(camera.position);
-                    
-                //     if(intersectionDistance < pointDistance){
-                //         point.element.classList.remove('visible')
-                //     }else{
-                //         point.element.classList.add('visible')
-                //     }
-                // }
-            // }
+                const translateX = screenPosition.x * sizes.width * 0.5;
+                const translateY = - screenPosition.y * sizes.height * 0.5;
+                point.element.style.transform = `translateX(${translateX}px) translateY(${translateY}px)`;    
+            
+            }
             window.requestAnimationFrame(tick);
         }
         tick();

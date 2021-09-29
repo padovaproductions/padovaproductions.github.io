@@ -2,7 +2,7 @@
 #example-nav{
 	position: fixed;
 	left: 15px;
-	top: 10px;
+	top: 64px;
 }
 
 
@@ -24,7 +24,7 @@
 
 .test-navs{
     position: fixed;
-    top: 170px;
+    top: 190px;
     left: 15px;
 }
 
@@ -47,7 +47,7 @@
     line-height: 22px;
     font-weight: bold;
     font-size: 12px;
-    cursor: help;
+    cursor: pointer;
     transform: scale(0, 0);
     transition: all 0.3s;
 }
@@ -58,11 +58,11 @@
 
 .point .text{
     position: absolute;
-    top: 13px;
-    left: -11px;
+    top: -11px;
+    left: 16px;
     width: 200px;
-    padding: 20px 10px 12px;
-    border-radius: 6px;
+    padding: 12px 10px 12px;
+    border-radius: 4px;
     background: rgba(0,0,0,.6);
     color: #ffffff;
     line-height: 1.3em;

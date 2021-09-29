@@ -6,14 +6,14 @@ import { recursiveAddShadow } from './_helpers'
 export function initLights( scene, modell, gui, guiVariables ){
     let r = 200;
 
-    const ambientLight = new AmbientLight( 0xffffff, .78 );
+    const ambientLight = new AmbientLight( 0xffffff, .82 );
     scene.add( ambientLight );
 
-    const light = new DirectionalLight(new Color("hsl(30, 0%, 100%)"), .62);
+    const light = new DirectionalLight(new Color("hsl(30, 0%, 100%)"), .68);
     const initLightPos = {
-        x: 120,
-        y: 120,
-        z: 120,
+        x: 140,
+        y: 80,
+        z: 100,
     };
     light.position.set( initLightPos.x, initLightPos.y, initLightPos.z );
     light.castShadow = true;
@@ -26,11 +26,11 @@ export function initLights( scene, modell, gui, guiVariables ){
     light.shadow.camera.near = 0;
     light.shadow.camera.far = 440;
     light.shadow.radius = 3;
-    light.shadow.bias = -0.0025;
+    light.shadow.bias = -0.002;
     scene.add(light);
 
     const lightHelper = new CameraHelper( light.shadow.camera );
     // lightHelper.visible = false;
-    scene.add( lightHelper );
+    // scene.add( lightHelper );
     
 }
