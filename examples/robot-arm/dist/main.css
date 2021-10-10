@@ -1,0 +1,59 @@
+/* General page styling */
+body{
+    background-color: #2b2b2b;
+}
+
+
+#example-nav{
+	position: fixed;
+	left: 15px;
+	top: 64px;
+}
+
+
+/* Site styling */
+#three-canvas{
+    position: fixed;
+    top: 0;
+    left: 0;
+    outline: none;
+}
+
+.three-canvas-wr{
+    position: fixed;
+    top: 0;
+    left: 0;
+    outline: none;
+    overflow: hidden;
+}
+
+.test-navs{
+    position: fixed;
+    top: 190px;
+    left: 15px;
+}
+
+.test-navs label{
+    color: white;
+    margin-bottom: 5px;
+}
+
+.test-navs input{
+    background-color: rgba(200,200,200, .3);
+    border: none;
+    border-radius: 4px;
+    padding: 10px;
+    color: white;
+    display: block;
+}
+
+
+/* Bootstrap overrides */
+.btn-outline-primary{
+    background-color: rgba(255, 255, 255, .5);
+}
+.btn-outline-primary:focus{
+    box-shadow: none;
+}
+
+/*# sourceMappingURL=main.css.map*/
