@@ -9,7 +9,7 @@ import { grey2_Material } from './_materials';
 export function handleImportedObject( gltf, scene, sizes ){
 
     const textureLoader = new TextureLoader()
-    const matcapTexture = textureLoader.load('/orange-1.jpg')
+    const matcapTexture = textureLoader.load('orange-1.jpg')
     const material = new MeshMatcapMaterial()
     material.matcap = matcapTexture;
     
