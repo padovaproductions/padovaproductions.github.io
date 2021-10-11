@@ -6,10 +6,10 @@ import { guiVariables } from './_datGUI'
 export function initLights( scene, gui ){
     let r = 4;
 
-    const ambientLight = new AmbientLight( 0xffffff, .60 );
+    const ambientLight = new AmbientLight( 0xffffff, .41 );
     scene.add( ambientLight );
 
-    const light = new DirectionalLight(new Color("hsl(30, 0%, 100%)"), .74);
+    const light = new DirectionalLight(new Color("hsl(30, 0%, 100%)"), 1);
     const initLightPos = {
         x: 6,
         y: 6,

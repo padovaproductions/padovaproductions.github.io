@@ -8,17 +8,20 @@ import { grey2_Material } from './_materials';
 
 export function handleImportedObject( gltf, scene, sizes ){
 
+    // move orbit control rotation center higher on the scene
+    gltf.scene.position.y = -1;
+    let armMotionEnabled = false;
+    const mouse = new Vector2();
     
+
     const loader = new TextureLoader();
     const blueTexture = loader.load('lower/Blue_robot_arm_DefaultMaterial_BaseColor.png');
- 
     const blueMaterial = new MeshBasicMaterial({
         map: blueTexture,
     });
 
 
 
-    const mouse = new Vector2();
 
     const base = gltf.scene.getObjectByName('Base');
     const lvl_1 = gltf.scene.getObjectByName('bottom');
@@ -36,26 +39,32 @@ export function handleImportedObject( gltf, scene, sizes ){
     })
 
     document.addEventListener('mousemove', (event) => {
-        mouse.x = (event.clientX / sizes.width) * 2 - 1;
-        mouse.y = -(event.clientY / sizes.height) * 2 + 1;
-        
-        // console.log(mouse.x)
-        // console.log(mouse.y)
-
-        lvl_1.rotation.y = - Math.PI/2 + Math.sin(mouse.x) * Math.PI*2;
-
-        if(mouse.y>0 && mouse.y<.9){    
+        if(armMotionEnabled){
+            mouse.x = (event.clientX / sizes.width) * 2 - 1;
+            mouse.y = -(event.clientY / sizes.height) * 2 + 1;
             
-            lvl_2.rotation.x = - Math.PI/2.4 + (Math.sin(mouse.y/2)) * Math.PI;
+            // console.log(mouse.x)
+            // console.log(mouse.y)
 
-            lvl_3.rotation.x = Math.PI/2.4 - (Math.sin(mouse.y)) * Math.PI;
-            
-            // lvl_4.rotation.x = Math.PI/2.4 - (Math.sin(mouse.y/2)) * Math.PI;
+            lvl_1.rotation.y = - Math.PI/2 + Math.sin(mouse.x) * Math.PI*2;
+
+            if(mouse.y>0 && mouse.y<.9){    
+                
+                lvl_2.rotation.x = - Math.PI/2.4 + (Math.sin(mouse.y/2)) * Math.PI;
+
+                lvl_3.rotation.x = Math.PI/2.4 - (Math.sin(mouse.y)) * Math.PI;
+                
+                // lvl_4.rotation.x = Math.PI/2.4 - (Math.sin(mouse.y/2)) * Math.PI;
+            }
         }
     
     })
 
-    gltf.scene.position.y = -1
+    
+    document.querySelector('.three-canvas').onclick = () => { 
+        armMotionEnabled = !armMotionEnabled;
+    }
+
 
 
 
