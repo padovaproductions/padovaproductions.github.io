@@ -61,7 +61,7 @@ export function handleImportedObject( gltf, scene, sizes ){
     })
 
     
-    document.querySelector('.three-canvas').onclick = () => { 
+    document.getElementById('motionToggler').onclick = () => { 
         armMotionEnabled = !armMotionEnabled;
     }
 

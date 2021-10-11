@@ -1,6 +1,6 @@
 /* General page styling */
 body{
-    background-color: #2b2b2b;
+    background-color: #282828;
 }
 
 
@@ -29,29 +29,16 @@ body{
 
 .test-navs{
     position: fixed;
-    top: 190px;
-    left: 15px;
-}
-
-.test-navs label{
-    color: white;
-    margin-bottom: 5px;
-}
-
-.test-navs input{
-    background-color: rgba(200,200,200, .3);
-    border: none;
-    border-radius: 4px;
-    padding: 10px;
-    color: white;
-    display: block;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 60px;
 }
 
 
 /* Bootstrap overrides */
-.btn-outline-primary{
-    background-color: rgba(255, 255, 255, .5);
-}
 .btn-outline-primary:focus{
+    box-shadow: none;
+}
+.btn-primary:focus{
     box-shadow: none;
 }
