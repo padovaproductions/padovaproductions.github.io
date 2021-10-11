@@ -6,7 +6,7 @@ import { grey2_Material } from './_materials';
 
 
 
-export function handleImportedObject( gltf, scene, sizes ){
+export function handleImportedObject( gltf, scene, sizes, controls ){
 
     // move orbit control rotation center higher on the scene
     gltf.scene.position.y = -1;
@@ -38,6 +38,22 @@ export function handleImportedObject( gltf, scene, sizes ){
         // child.material.map = blueMaterial;
     })
 
+
+    function setArmPosition( xx, yy ){
+        lvl_1.rotation.y = - Math.PI/2 + Math.sin(xx) * Math.PI*2;
+
+        if(yy>=0 && yy<.9){    
+            
+            lvl_2.rotation.x = - Math.PI/2.4 + (Math.sin( yy/2 )) * Math.PI;
+
+            lvl_3.rotation.x = Math.PI/2.4 - (Math.sin(yy)) * Math.PI;
+            
+            // lvl_4.rotation.x = Math.PI/2.4 - (Math.sin(yy/2)) * Math.PI;
+        }
+    }
+
+    setArmPosition( -0.0054, 0 );
+
     document.addEventListener('mousemove', (event) => {
         if(armMotionEnabled){
             mouse.x = (event.clientX / sizes.width) * 2 - 1;
@@ -46,16 +62,8 @@ export function handleImportedObject( gltf, scene, sizes ){
             // console.log(mouse.x)
             // console.log(mouse.y)
 
-            lvl_1.rotation.y = - Math.PI/2 + Math.sin(mouse.x) * Math.PI*2;
 
-            if(mouse.y>0 && mouse.y<.9){    
-                
-                lvl_2.rotation.x = - Math.PI/2.4 + (Math.sin(mouse.y/2)) * Math.PI;
-
-                lvl_3.rotation.x = Math.PI/2.4 - (Math.sin(mouse.y)) * Math.PI;
-                
-                // lvl_4.rotation.x = Math.PI/2.4 - (Math.sin(mouse.y/2)) * Math.PI;
-            }
+            setArmPosition( mouse.x, mouse.y );
         }
     
     })
@@ -63,6 +71,7 @@ export function handleImportedObject( gltf, scene, sizes ){
     
     document.getElementById('motionToggler').onclick = () => { 
         armMotionEnabled = !armMotionEnabled;
+        // controls.enabled = !controls.enabled;
     }
 
 

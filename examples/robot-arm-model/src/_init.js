@@ -36,7 +36,7 @@ export function initThree( projectName ) {
             'lower/robo_arm_low_tex.gltf',
             (gltf) => {
 
-            handleImportedObject(gltf, scene, sizes);
+            handleImportedObject(gltf, scene, sizes, controls );
 
             }
         );
@@ -53,7 +53,7 @@ export function initThree( projectName ) {
             camera.aspect = sizes.width / sizes.height;
             camera.updateProjectionMatrix();
             renderer.setSize(sizes.width, sizes.height);
-            // console.log(camera.position)
+            console.log(camera.position)
         });
 
 
