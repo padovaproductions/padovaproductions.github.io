@@ -1,0 +1,47 @@
+/* General page styling */
+body{
+    background-color: #282828;
+}
+
+
+#example-nav{
+	position: fixed;
+	left: 15px;
+	top: 64px;
+}
+
+
+/* Site styling */
+#three-canvas{
+    position: fixed;
+    top: 0;
+    left: 0;
+    outline: none;
+}
+
+.three-canvas-wr{
+    position: fixed;
+    top: 0;
+    left: 0;
+    outline: none;
+    overflow: hidden;
+}
+
+.test-navs{
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 60px;
+    text-align: center;
+}
+
+
+/* Bootstrap overrides */
+.btn-outline-primary:focus{
+    box-shadow: none;
+}
+.btn-primary:focus{
+    box-shadow: none;
+}
+
+/*# sourceMappingURL=main.css.map*/
