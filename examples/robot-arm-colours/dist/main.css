@@ -1,6 +1,6 @@
 /* General page styling */
 body{
-    background-color: #282828;
+    background-color: #1A1A1A;
 }
 
 
@@ -57,6 +57,61 @@ body{
 
 .swatch:focus{
     box-shadow: 0 0 0 3px rgba( 248, 249, 250, .5 );
+}
+
+
+.info-panel{
+    position: fixed;
+    left: 15px;
+    top: 100px;
+    background-color: rgba(200,200,200, .2);
+    color: white;
+    font-size: 11px;
+    padding-right: 10px;
+}
+
+.info-panel td{
+    padding: 6px 0;
+}
+
+.info-panel strong{
+    font-size: 14px;
+}
+
+.info-panel .btn-close{
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
+
+.loading-screen{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #1A1A1A;
+    transition: opacity .7s .5s ease;
+}
+.loadbar{
+    position: absolute;
+    top: 50%;
+    left: 10%;
+    right: 10%;
+    height: 2px;
+    border-radius: 20px;
+    background-color: rgba(200,200,200, .2);
+}
+.loadbar-inner{
+    position: absolute;
+    top: 50%;
+    left: 10%;
+    right: 10%;
+    height: 2px;
+    border-radius: 20px;
+    background-color: rgba(255,255,255, .8);
+    transform-origin: left;
+    transform: scaleX(0);
 }
 
 
