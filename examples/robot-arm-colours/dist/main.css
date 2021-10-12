@@ -114,6 +114,22 @@ body{
     transform: scaleX(0);
 }
 
+.mobile-notice{
+    display: none;
+    color: white;
+    font-size: 14px;
+}
+
+
+@media (hover: none){
+    .only-hover-device{
+        display: none;
+    }
+    .mobile-notice{
+        display: block;
+    }
+}
+
 
 /* Bootstrap overrides */
 .btn-outline-primary:focus{
