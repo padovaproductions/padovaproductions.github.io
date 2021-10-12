@@ -31,8 +31,32 @@ body{
     position: fixed;
     left: 50%;
     transform: translateX(-50%);
-    bottom: 60px;
+    bottom: 50px;
     text-align: center;
+}
+
+.swatch{
+    border-radius: 100px;
+    border: none;
+    padding: 0;
+    width: 24px;
+    height: 24px;
+    margin: 4px;
+    transition: all .15s ease;
+}
+
+.swatch.orange{
+    background: linear-gradient(45deg, #FF8F13, #d83c0c );
+}
+.swatch.grey{
+    background: linear-gradient(45deg, #ffffff, #797979 );
+}
+.swatch.blue{
+    background: linear-gradient(45deg, #1a79b9, #124568 );
+}
+
+.swatch:focus{
+    box-shadow: 0 0 0 3px rgba( 248, 249, 250, .5 );
 }
 
 
