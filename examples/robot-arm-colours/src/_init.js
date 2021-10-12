@@ -58,8 +58,19 @@ export function initThree( projectName ) {
             // console.log(camera.position);
         });
 
+            
+        let fpsToggler = 0;
+        document.addEventListener('keydown', (e) => {
+            if( e.code == "KeyF" ){
+                fpsToggler = ( fpsToggler === 0 ? false : 0 );
+                stats.showPanel( fpsToggler );
+            }
+        });
 
-        const stats = Stats()
+        
+
+
+        const stats = Stats();
         document.body.appendChild(stats.dom)
         
         const tick = () => {
