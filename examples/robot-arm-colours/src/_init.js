@@ -68,6 +68,9 @@ export function initThree( projectName ) {
         });
 
         
+        document.getElementById('closeInfo').onclick = (e) => { 
+            document.getElementById('infoPanel').style.display = 'none';
+        }   
 
 
         const stats = Stats();

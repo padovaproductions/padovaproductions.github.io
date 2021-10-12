@@ -17,7 +17,6 @@ export function handleImportedObject( gltf, scene, sizes, controls, bitmaps ){
     const lvl_3 = gltf.scene.getObjectByName('pont');
 
     
-    const loader = new TextureLoader();
     const robotMaterial = new MeshStandardMaterial( { 
         map: bitmaps['orange'],
         normalMap: bitmaps['normal'],
