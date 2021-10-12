@@ -115,18 +115,21 @@ body{
 }
 
 .mobile-notice{
-    display: none;
+    display: block;
     color: white;
     font-size: 14px;
 }
 
+.only-hover-device{
+    display: none;
+}
 
-@media (hover: none){
+@media (hover: hover) and (pointer: fine){
     .only-hover-device{
-        display: none;
+        display: block;
     }
     .mobile-notice{
-        display: block;
+        display: none;
     }
 }
 
