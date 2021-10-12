@@ -1,18 +1,18 @@
 import { AmbientLight, DirectionalLight, HemisphereLight, CameraHelper, Color } from 'three'
 import { guiVariables } from './_datGUI'
 
-// Sunrise color: #E67E22
+
 
 export function initLights( scene, gui ){
-    let r = 2;
+    let r = 2.2;
     const mapSizeFactor = 1;
-    // const ambientLight = new AmbientLight( 0xffffff, .41 );
-    // scene.add( ambientLight );
+    const ambientLight = new AmbientLight( 0xffffff, .27 );
+    scene.add( ambientLight );
 
 
 
-    const hemiLight = new HemisphereLight( 0xffffbb, 0xefefef, .29 );
-    scene.add( hemiLight );
+    // const hemiLight = new HemisphereLight( 0xffffbb, 0xefefef, .29 );
+    // scene.add( hemiLight );
 
 
 
@@ -26,7 +26,7 @@ export function initLights( scene, gui ){
     light.shadow.camera.left = -r;
     light.shadow.camera.bottom = -r;
     light.shadow.camera.near = 3;
-    light.shadow.camera.far = 15;
+    light.shadow.camera.far = 7;
     light.shadow.radius = 2;
     light.shadow.bias = -0.006;
     scene.add(light);
@@ -37,10 +37,9 @@ export function initLights( scene, gui ){
     
     
     const lightsFolder = gui.addFolder('Lights')
-    lightsFolder.open()
+    lightsFolder.open();
     lightsFolder.add( lightHelper, 'visible' ).name("Light helper");
     lightsFolder.add( light.position, 'x', -12, 12, 0.1 ).name("Light X");
     lightsFolder.add( light.position, 'y', -12, 12, 0.1 ).name("Light Y");
     lightsFolder.add( light.position, 'z', -12, 12, 0.1 ).name("Light Z");
-    
 }

@@ -1,6 +1,6 @@
 import './style.css';
 import * as THREE from 'three';
-import { liftLevels, liftAllLevels, resetPositions, addNavPanel } from './_helpers';
+import { liftLevels, liftAllLevels, resetPositions, addNavPanel, recursiveAddShadow } from './_helpers';
 import { initControls } from './_controls';
 import { initLights } from './_lights';
 import { initRenderer } from './_renderer';
@@ -43,8 +43,14 @@ export function initThree( projectName ) {
             'lower/robo_arm_low_tex.gltf',
             (gltf) => {
 
-            handleImportedObject(gltf, scene, sizes, controls, bitmaps );
+                handleImportedObject(gltf, scene, sizes, controls, bitmaps );
 
+                
+                const controlFolder = gui.addFolder('Controls')
+                controlFolder.open();
+                controlFolder.add( guiVariables, 'allowShadows' ).name("Enable shadows").onChange( (value) => {
+                    recursiveAddShadow  ( gltf.scene, value );
+                });
             }
         );
 
@@ -60,7 +66,7 @@ export function initThree( projectName ) {
             camera.aspect = sizes.width / sizes.height;
             camera.updateProjectionMatrix();
             renderer.setSize(sizes.width, sizes.height);
-            console.log(camera.position);
+            // console.log(camera.position);
         });
 
             

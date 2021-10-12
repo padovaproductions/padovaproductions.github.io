@@ -39,17 +39,9 @@ export function resetPositions( levelArray ){
 }
 
 export function recursiveAddShadow(three_obj, shadowBool){
-    if(three_obj.hasOwnProperty('castShadow')){
-        three_obj.castShadow = shadowBool;
-    }
-    if(three_obj.hasOwnProperty('receiveShadow')){
-        three_obj.receiveShadow = shadowBool;
-    }
-    if ( three_obj.hasOwnProperty('children') && three_obj.children.length > 0 ){ 
-        three_obj.children.forEach(element => {
-            recursiveAddShadow(element, shadowBool);
-        }); 
-    }
+    three_obj.traverse((child)=>{
+        child.castShadow = shadowBool;
+    });
 }
 
 export function addNavPanel( domID, projectName ){
