@@ -14,7 +14,7 @@ export function initRenderer( canvas, sizes ){
     renderer.setSize(sizes.width, sizes.height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.shadowMap.enabled = true;
-    renderer.outputEncoding = sRGBEncoding;
+    // renderer.outputEncoding = sRGBEncoding;
 
     return renderer;
 }
