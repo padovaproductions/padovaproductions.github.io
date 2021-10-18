@@ -2,48 +2,6 @@ import gsap from 'gsap'
 
 
 
-export function liftAllLevels( levelArray ){
-    levelArray.forEach( (el, index) => {
-        gsap.to( el.position, { 
-            y: el.userData.initialPos.y + (index*8), 
-            x: el.userData.initialPos.x, 
-            z: el.userData.initialPos.z, 
-            duration: 1
-        });
-    });
-}
-
-export function liftLevels( levelArray ){
-    levelArray.forEach( (el, index) => {
-        if( index > 1){
-            gsap.to( el.position, { 
-                y: el.userData.initialPos.y + (index*8), 
-                x: el.userData.initialPos.x, 
-                z: el.userData.initialPos.z, 
-                duration: 1
-            });
-        }
-    });
-}
-
-
-export function resetPositions( levelArray ){
-    levelArray.forEach(el => {
-        gsap.to( el.position, { 
-            x: el.userData.initialPos.x, 
-            y: el.userData.initialPos.y,
-            z: el.userData.initialPos.z,
-            duration: 1
-        });
-    });
-}
-
-export function recursiveAddShadow(three_obj, shadowBool){
-    three_obj.traverse((child)=>{
-        child.castShadow = shadowBool;
-    });
-}
-
 export function addNavPanel( domID, projectName ){
     document.getElementById(domID).innerHTML=
     `

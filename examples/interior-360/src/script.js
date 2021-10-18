@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { GUI } from 'three/examples/jsm/libs/dat.gui.module'
+import { addNavPanel } from './_helpers'
 
 
 let camera, scene, renderer, sphere, material, gui;
@@ -14,6 +15,7 @@ textureLoader.load( '360_test.png', function ( texture ) {
 
     init( texture );
     animate();
+    addNavPanel( 'example-nav', 'Interior 360' );
 } );
 
 function init( texture ) {
