@@ -6,7 +6,7 @@ let camera, scene, renderer, controls;
 
 const textureLoader = new THREE.TextureLoader();
 window.addEventListener('load', () => {
-    textureLoader.load( '360_test.png', function ( texture ) {
+    textureLoader.load( '360_final3_optimized.jpg', function ( texture ) {
         texture.encoding = THREE.sRGBEncoding;
         texture.mapping = THREE.EquirectangularReflectionMapping;
 
