@@ -29,7 +29,7 @@ export function initThree( projectName ) {
         
 
         gltfLoader.load(
-            'houses_smooth_edge.gltf',
+            'houses_smooth_edges.gltf',
             (gltf) => {
                 handleImportedObject(gltf, scene, gui );
             }
