@@ -13,7 +13,7 @@ export function initControls( camera, canvas, gui ){
     controls.autoRotateSpeed = .15;
     controls.maxPolarAngle = Math.PI/2 - 0.1;
     // controls.minDistance = 40;
-    controls.maxDistance = 500;
+    // controls.maxDistance = 500;
     
     return controls;
 }
