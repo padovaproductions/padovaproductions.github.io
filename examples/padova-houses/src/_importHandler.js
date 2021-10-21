@@ -4,11 +4,9 @@ import { guiVariables } from './_datGUI';
 
 export function handleImportedObject( gltf, scene, gui ){
 
-    const baseColor = new Color("0xf9f6ec");
+    const baseColor = new Color(0xf89d65);
 
     gltf.scene.traverse(( child )=>{
-        child.castShadow = true;
-        child.receiveShadow = true;
 
         if(child.hasOwnProperty('material')){
             child.material.color = baseColor;
@@ -17,7 +15,7 @@ export function handleImportedObject( gltf, scene, gui ){
 
     
     gui.addColor(guiVariables, 'baseColor').name("Base color").onChange( (value) => {
-        baseColor.set(value);
+        baseColor.setHex(value);
     });
 
     console.log( gltf );

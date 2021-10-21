@@ -16,7 +16,7 @@ export function initRenderer( canvas, sizes ){
     renderer.shadowMap.enabled = true;
     renderer.outputEncoding = sRGBEncoding;
     renderer.toneMapping = ACESFilmicToneMapping;
-    // renderer.toneMappingExposure = 3;
+    // renderer.toneMappingExposure = 1;
 
     return renderer;
 }

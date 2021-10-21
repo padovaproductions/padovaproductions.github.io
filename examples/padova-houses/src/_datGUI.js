@@ -12,5 +12,6 @@ export function initGUI(){
 
 export const guiVariables = {
     baseColor: 0xffffff,
-    lightColor: 0xffffff,
+    hemiColor: 0xffffff,
+    ambientColor: 0xffffff,
 }
