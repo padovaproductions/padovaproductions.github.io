@@ -4,7 +4,7 @@ import { guiVariables } from './_datGUI';
 
 export function handleImportedObject( gltf, scene, gui ){
 
-    const baseColor = new Color(0xf89d65);
+    const baseColor = new Color(0xffe7c0);
 
     gltf.scene.traverse(( child )=>{
 
