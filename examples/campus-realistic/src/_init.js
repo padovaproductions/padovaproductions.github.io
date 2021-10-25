@@ -10,7 +10,7 @@ import { handleImportedObject } from './_importHandler'
 import { initGLTFLoader } from './_GLTFloader'
 import { initSky } from './_sky'
 import gsap from 'gsap'
-import Stats from 'three/examples/jsm/libs/stats.module';
+// import Stats from 'three/examples/jsm/libs/stats.module';
 import { grey2_Material } from './_materials';
 
 
@@ -160,15 +160,15 @@ export function initThree( projectName ) {
         });
         
 
-        const stats = Stats()
-        document.body.appendChild(stats.dom)
+        // const stats = Stats()
+        // document.body.appendChild(stats.dom)
         /**
          * Animate
          * If there's less animation, the it's probably enough to call re-render on events only:
          * https://threejsfundamentals.org/threejs/lessons/threejs-rendering-on-demand.html
          */
         const tick = () => {
-            stats.update();
+            // stats.update();
             controls.update();
             renderer.render(scene, camera);
 
@@ -188,6 +188,6 @@ export function initThree( projectName ) {
 
 
         
-        addNavPanel( 'example-nav', projectName );
+        // addNavPanel( 'example-nav', projectName );
     }
 }
