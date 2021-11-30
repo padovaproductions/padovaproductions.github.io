@@ -120,6 +120,7 @@ function main() {
 
                 mixer = new THREE.AnimationMixer(gltf.scene)
                 const action = mixer.clipAction(gltf.animations[1])
+                const action2 = mixer.clipAction(gltf.animations[2])
                 action.play()
 
                 console.log(gltf)
