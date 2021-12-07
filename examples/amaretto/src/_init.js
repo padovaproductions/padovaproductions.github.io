@@ -21,23 +21,22 @@ export function initThree( ) {
             antialias: true,
             alpha: true,
         });
+        renderer.outputEncoding = sRGBEncoding;
         renderer.setClearColor(0x000000, 0);
         renderer.setSize(sizes.width, sizes.height);
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        renderer.outputEncoding = sRGBEncoding;
 
 
 
         const camera = new PerspectiveCamera(35, sizes.width / sizes.height);
         const controls = new OrbitControls(camera, canvas);
         controls.addEventListener( 'change', render ); 
-        // controls.enableDamping = true;
         controls.maxPolarAngle = Math.PI/2;
-        // controls.minDistance = 40;
-        controls.maxDistance = 500;
-        controls.enableZoom = false;
-        controls.enablePan = false;
-        camera.position.set( 1.9, 0.058, 5.6 );
+        controls.minDistance = 4;
+        controls.maxDistance = 12;
+        // controls.enableZoom = false;
+        // controls.enablePan = false;
+        camera.position.set( -2.97, 2.61, -6.085 );
         controls.update();
 
 
@@ -52,7 +51,6 @@ export function initThree( ) {
             'brown.gltf',
             (gltf) => {
 
-                console.log( gltf );
                 scene.add(gltf.scene);
                 renderer.render(scene, camera);
             }
@@ -66,6 +64,7 @@ export function initThree( ) {
             camera.updateProjectionMatrix();
             renderer.setSize(sizes.width, sizes.height);
             renderer.render(scene, camera);
+            console.log()
         });
 
         function render(){
