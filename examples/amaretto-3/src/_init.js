@@ -12,51 +12,47 @@ export function initThree( ) {
     const canvas = document.getElementById('three-canvas');
     if( canvas != null ){
 
-        
         const scene = new Scene();
         const gui = new GUI({ width: 300 });
         const sizes = { width: window.innerWidth, height: window.innerHeight };
-        
-			const params = {
-				exposure: 1.0,
-				toneMapping: 'ACESFilmic'
-			};
+        const params = {
+            exposure: 1.0,
+            toneMapping: 'ACESFilmic'
+        };
 
-			const toneMappingOptions = {
-				None: NoToneMapping,
-				Linear: LinearToneMapping,
-				Reinhard: ReinhardToneMapping,
-				Cineon: CineonToneMapping,
-				ACESFilmic: ACESFilmicToneMapping,
-			};
-
-        console.log(toneMappingOptions)
+        const toneMappingOptions = {
+            None: NoToneMapping,
+            Linear: LinearToneMapping,
+            Reinhard: ReinhardToneMapping,
+            Cineon: CineonToneMapping,
+            ACESFilmic: ACESFilmicToneMapping,
+        };
 
         const points = [
             {
                 name: "house",
                 length: 1,
-                position: new Vector3(.4, 1.5, 1),
+                position: new Vector3(.4, 1.36, 1),
                 element: document.getElementById('point-1'),
             },
             {
                 name: "botanics",
                 length: 1,
-                position: new Vector3(-0.157, 1.39, 2.436),
+                position: new Vector3(-0.157, 1.25, 2.436),
                 element: document.getElementById('point-2'),
             },
             {
                 name: "layers",
                 length: 1,
-                position: new Vector3(2.5, 1.22, 1),
+                position: new Vector3(2.5, 1.1, 1),
                 element: document.getElementById('point-3'),
             },
-            {
-                name: "base",
-                length: 1,
-                position: new Vector3(-.6, .5, -3),
-                element: document.getElementById('point-4'),
-            },
+            // {
+            //     name: "base",
+            //     length: 1,
+            //     position: new Vector3(-.6, .36, -3),
+            //     element: document.getElementById('point-4'),
+            // },
         ];
         
 
@@ -87,21 +83,22 @@ export function initThree( ) {
 
 
         const camera = new PerspectiveCamera(35, sizes.width / sizes.height);
+        camera.position.set( -2.97, 2.61, -6.085 );
+
         const controls = new OrbitControls(camera, canvas);
         controls.addEventListener( 'change', render ); 
         controls.maxPolarAngle = Math.PI/2.25;
-        controls.minDistance = 4;
-        controls.maxDistance = 12;
-        // controls.enableZoom = false;
-        // controls.enablePan = false;
-        camera.position.set( -2.97, 2.61, -6.085 );
+        // controls.minDistance = 4;
+        // controls.maxDistance = 12;
+        controls.enableZoom = false;
+        controls.enablePan = false;
         controls.update();
 
 
 
         const gltfLoader = initGLTFLoader();
         
-        const ambientLight = new AmbientLight( 0xffffff, .77 );
+        const ambientLight = new AmbientLight( 0xffffff, .68 );
         scene.add( ambientLight );
         
         gui.add( ambientLight, 'intensity', 0, 3, 0.01 ).name("Ambient light").onChange( function () {
@@ -112,10 +109,10 @@ export function initThree( ) {
         
 
         gltfLoader.load(
-            'final.gltf',
+            'amaretto-glow-2/final_glow_x.gltf',
             (gltf) => {
 
-                gltf.scene.position.y= -0.5;
+                gltf.scene.position.y= -0.64;
 
                 gui.add( params, 'toneMapping', Object.keys( toneMappingOptions ) ).onChange( function () {
                     renderer.toneMapping = toneMappingOptions[ params.toneMapping ];
@@ -142,11 +139,10 @@ export function initThree( ) {
 
         function render(){
             renderer.render(scene, camera);
+            adjustMarkers();
         }
 
-        
-        function animate() {
-
+        function adjustMarkers(){
             for (const point of points) {
                 const screenPosition = point.position.clone();
                 screenPosition.project(camera);
@@ -155,11 +151,6 @@ export function initThree( ) {
                 const translateY = -screenPosition.y * sizes.height * 0.5;
                 point.element.style.transform = `translateX(${translateX}px) translateY(${translateY}px)`;
             }
-
-            window.requestAnimationFrame(animate);
         }
-        animate();
-
-        
     }
 }
