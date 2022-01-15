@@ -50,12 +50,13 @@ module.exports = (project) => {
     
                 // CSS
                 {
-                    test: /\.css$/,
+                    test: /\.s[ac]ss$/i,
                     use:
                     [
                         MiniCSSExtractPlugin.loader,
-                        'css-loader'
-                    ]
+                        'css-loader',
+                        'sass-loader'
+                    ],
                 },
     
                 // Images

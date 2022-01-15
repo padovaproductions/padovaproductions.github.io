@@ -19,6 +19,8 @@
         "mini-css-extract-plugin": "^2.0.0",
         "portfinder-sync": "0.0.2",
         "raw-loader": "^4.0.2",
+        "sass": "^1.45.0",
+        "sass-loader": "^12.4.0",
         "style-loader": "^3.0.0",
         "webpack": "^5.41.1",
         "webpack-cli": "^4.7.2",
